@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Lis-moi : Apprendre à lire</string>
+    <string name="words_number">Contient %d mots</string>
 </resources>
