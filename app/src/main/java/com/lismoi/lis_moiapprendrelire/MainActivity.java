@@ -1,5 +1,6 @@
 package com.lismoi.lis_moiapprendrelire;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,7 +20,7 @@ import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements CategoryAdapter.CategoryAdapterListener {
 
     private RecyclerView mActivityMainRecycler;
     private CategoryAdapter mAdapter;
@@ -34,50 +35,44 @@ public class MainActivity extends AppCompatActivity {
         getWords();
     }
 
-    private enum Categories {
-        FRUIT("Fruit"), ANIMAL("Animal");
-
-        private String categoryName;
-
-        Categories(String category) {
-            this.categoryName = category;
-        }
-    }
-
     public void getWords() {
-        RequestService githubService = new RestAdapter.Builder()
+        RequestService requestService = new RestAdapter.Builder()
                 .setEndpoint(RequestService.ENDPOINT)
                 .build()
                 .create(RequestService.class);
 
-        githubService.getAllWords(new Callback<WordsList>() {
+        requestService.getAllWords(new Callback<WordsList>() {
             @Override
             public void success(WordsList words, Response response) {
                 Log.d("DEBUG", String.valueOf(words));
 
                 List<String> categoryStringList = new ArrayList<>();
 
-                for (Word word : words.getWords()) {
+                for (Word word : words.getWordList()) {
                     if (!categoryStringList.contains(word.getCategory())) {
                         categoryStringList.add(word.getCategory());
                     }
                 }
 
-
                 List<Category> categoryList = new ArrayList<>();
 
                 for (int i = 0; i < categoryStringList.size(); i++) {
                     Category category = new Category();
-                    for (Word word : words.getWords()) {
+                    WordsList wordsList = new WordsList();
+
+                    for (Word word : words.getWordList()) {
                         if (word.getCategory().equals(categoryStringList.get(i))) {
                             category.updateWordsNumber();
+                            wordsList.addWordToList(word);
                         }
                     }
+
+                    category.setWordsList(wordsList);
                     category.setCategoryName(categoryStringList.get(i));
                     categoryList.add(category);
                 }
 
-                mAdapter = new CategoryAdapter(categoryList, MainActivity.this);
+                mAdapter = new CategoryAdapter(categoryList, MainActivity.this, MainActivity.this);
                 mActivityMainRecycler.setAdapter(mAdapter);
                 mActivityMainRecycler.setLayoutManager(new LinearLayoutManager(MainActivity.this));
             }
@@ -87,5 +82,12 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    public void onCategoryClicked(Category category) {
+        Intent intent = new Intent(this, WordsActivity.class);
+        intent.putExtra("categoryObj", category);
+        startActivity(intent);
     }
 }

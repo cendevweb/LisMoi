@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.lismoi.lis_moiapprendrelire.R;
@@ -19,12 +20,14 @@ import java.util.List;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder> {
 
+    private CategoryAdapterListener mCategoryAdapterListener;
     private Context mContext;
     private List<Category> mCategoryList;
 
-    public CategoryAdapter(List<Category> categoryList, Context mContext) {
+    public CategoryAdapter(List<Category> categoryList, Context mContext, CategoryAdapterListener categoryAdapterListener) {
         this.mContext = mContext;
         this.mCategoryList = categoryList;
+        this.mCategoryAdapterListener = categoryAdapterListener;
     }
 
     @Override
@@ -36,7 +39,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
     @Override
     public void onBindViewHolder(CategoryViewHolder holder, int position) {
-        Category category = mCategoryList.get(position);
+        final Category category = mCategoryList.get(position);
         holder.mCategoryItemName.setText(category.getCategoryName());
 
         Typeface font = Typeface.createFromAsset(mContext.getAssets(), "font/soft_marshmallow.ttf");
@@ -44,6 +47,14 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
         holder.mCategoryItemWordsNumber.setText(
                 String.format(mContext.getString(R.string.words_number), category.getWordsInCategoryNumber()));
+
+        holder.mCategoryItemLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mCategoryAdapterListener != null)
+                    mCategoryAdapterListener.onCategoryClicked(category);
+            }
+        });
     }
 
     @Override
@@ -55,12 +66,18 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
         public TextView mCategoryItemName;
         public TextView mCategoryItemWordsNumber;
+        public LinearLayout mCategoryItemLayout;
 
         public CategoryViewHolder(View v) {
             super(v);
 
             mCategoryItemName = v.findViewById(R.id.category_item_name);
             mCategoryItemWordsNumber = v.findViewById(R.id.category_item_words_number);
+            mCategoryItemLayout = v.findViewById(R.id.category_item_layout);
         }
+    }
+
+    public interface CategoryAdapterListener {
+        void onCategoryClicked(Category category);
     }
 }

@@ -1,27 +1,40 @@
 package com.lismoi.lis_moiapprendrelire.model;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Phil on 12/10/2017.
  */
 
-public class Category {
+public class Category implements Serializable {
+
     private int imageResource;
     private String categoryName;
     private int wordsInCategoryNumber;
-
-    public Category(int imageResource, String categoryName, int wordsInCategoryNumber) {
-        this.imageResource = imageResource;
-        this.categoryName = categoryName;
-        this.wordsInCategoryNumber = wordsInCategoryNumber;
-    }
-
-    public Category(String categoryName, int wordsInCategoryNumber) {
-        this.categoryName = categoryName;
-        this.wordsInCategoryNumber = wordsInCategoryNumber;
-    }
+    private WordsList mWordsList;
 
     public Category() {
 
+    }
+
+    public ArrayList<String> getCategoryWords() {
+        ArrayList<String> wordsList = new ArrayList<>();
+
+        for (Word word : mWordsList.getWordList()) {
+            wordsList.add(word.getWord());
+        }
+
+        return wordsList;
+    }
+
+    public WordsList getWordsList() {
+        return mWordsList;
+    }
+
+    public void setWordsList(WordsList wordsList) {
+        this.mWordsList = wordsList;
     }
 
     public void setImageResource(int imageResource) {

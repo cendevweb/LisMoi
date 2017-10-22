@@ -2,11 +2,13 @@ package com.lismoi.lis_moiapprendrelire.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by Phil on 12/10/2017.
  */
 
-public class Word {
+public class Word implements Serializable {
 
     @SerializedName("word")
     private String word;
