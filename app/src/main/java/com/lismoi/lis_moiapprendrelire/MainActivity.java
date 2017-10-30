@@ -1,13 +1,19 @@
 package com.lismoi.lis_moiapprendrelire;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 import com.lismoi.lis_moiapprendrelire.adapters.CategoryAdapter;
 import com.lismoi.lis_moiapprendrelire.model.Category;
+import com.lismoi.lis_moiapprendrelire.model.DictionaryActivity;
 import com.lismoi.lis_moiapprendrelire.model.Word;
 import com.lismoi.lis_moiapprendrelire.model.WordsList;
 
@@ -23,17 +29,44 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerView mActivityMainRecycler;
     private CategoryAdapter mAdapter;
-
+    private Button mActivityMainButton;
+    List<String> wordsList = new ArrayList();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         mActivityMainRecycler = (RecyclerView) findViewById(R.id.activity_main_recycler);
+        mActivityMainButton = (Button) findViewById(R.id.activity_main_button);
 
+        mActivityMainButton.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+                wordsList.add("banane");
+                wordsList.add("pomme");
+                wordsList.add("peche");
+                TinyDB tinydb = new TinyDB(MainActivity.this);
+                tinydb.putListString("wordsList", (ArrayList<String>) wordsList);
+
+            }
+        });
         getWords();
     }
-
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_dictionary:
+                Intent intent = new Intent(MainActivity.this, DictionaryActivity.class);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
     private enum Categories {
         FRUIT("Fruit"), ANIMAL("Animal");
 
@@ -88,4 +121,5 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
 }
