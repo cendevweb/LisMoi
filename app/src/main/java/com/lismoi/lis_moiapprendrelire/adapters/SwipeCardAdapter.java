@@ -1,6 +1,7 @@
 package com.lismoi.lis_moiapprendrelire.adapters;
 
 import android.content.Context;
+import android.speech.tts.TextToSpeech;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,8 @@ import com.lismoi.lis_moiapprendrelire.model.Word;
 import com.lismoi.lis_moiapprendrelire.model.WordsList;
 import com.squareup.picasso.Picasso;
 
+import java.util.Locale;
+
 /**
  * Created by Phil on 22/10/2017.
  */
@@ -22,6 +25,7 @@ public class SwipeCardAdapter extends BaseAdapter {
     private Context mContext;
     private LayoutInflater mLayoutInflater;
     private WordsList mWordsList;
+    private TextToSpeech mTextToSpeech;
 
     public SwipeCardAdapter(Context context, LayoutInflater layoutInflater, WordsList wordsList) {
         this.mContext = context;
@@ -54,16 +58,32 @@ public class SwipeCardAdapter extends BaseAdapter {
             viewHolder = new ViewHolder();
             viewHolder.wordText = convertView.findViewById(R.id.word_card_word);
             viewHolder.wordImage = convertView.findViewById(R.id.word_card_image);
+            viewHolder.sayWordImage = convertView.findViewById(R.id.word_card_say_word);
 
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        Word word = mWordsList.getWordList().get(position);
+        final Word word = mWordsList.getWordList().get(position);
 
         viewHolder.wordText.setText(word.getWord());
         Picasso.with(mContext).load(word.getImageUrl()).into(viewHolder.wordImage);
+
+        mTextToSpeech = new TextToSpeech(mContext, new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                mTextToSpeech.setLanguage(Locale.FRENCH);
+                mTextToSpeech.setSpeechRate(0.8f);
+            }
+        });
+
+        viewHolder.sayWordImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mTextToSpeech.speak(word.getWord(), TextToSpeech.QUEUE_FLUSH, null);
+            }
+        });
 
         return convertView;
     }
@@ -71,5 +91,6 @@ public class SwipeCardAdapter extends BaseAdapter {
     private static class ViewHolder {
         public TextView wordText;
         public ImageView wordImage;
+        public ImageView sayWordImage;
     }
 }

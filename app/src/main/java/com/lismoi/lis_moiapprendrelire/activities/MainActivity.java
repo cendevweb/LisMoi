@@ -1,4 +1,4 @@
-package com.lismoi.lis_moiapprendrelire;
+package com.lismoi.lis_moiapprendrelire.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,7 +7,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 
+import com.lismoi.lis_moiapprendrelire.R;
+import com.lismoi.lis_moiapprendrelire.RequestService;
+import com.lismoi.lis_moiapprendrelire.WordsActivity;
 import com.lismoi.lis_moiapprendrelire.adapters.CategoryAdapter;
 import com.lismoi.lis_moiapprendrelire.model.Category;
 import com.lismoi.lis_moiapprendrelire.model.Word;
@@ -25,37 +30,28 @@ public class MainActivity extends AppCompatActivity implements CategoryAdapter.C
 
     private RecyclerView mActivityMainRecycler;
     private CategoryAdapter mAdapter;
-    @Override
+ @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         mActivityMainRecycler = (RecyclerView) findViewById(R.id.activity_main_recycler);
-
         getWords();
     }
 
-    public boolean onCreateOptionsMenu(Menu menu){
+    public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
         return true;
     }
+
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.action_dictionary:
                 Intent intent = new Intent(MainActivity.this, DictionaryActivity.class);
                 startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
-        }
-    }
-    private enum Categories {
-        FRUIT("Fruit"), ANIMAL("Animal");
-
-        private String categoryName;
-
-        Categories(String category) {
-            this.categoryName = category;
         }
     }
 
@@ -99,6 +95,9 @@ public class MainActivity extends AppCompatActivity implements CategoryAdapter.C
                 mAdapter = new CategoryAdapter(categoryList, MainActivity.this, MainActivity.this);
                 mActivityMainRecycler.setAdapter(mAdapter);
                 mActivityMainRecycler.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+                int resId = R.anim.layout_animation_slide_in;
+                LayoutAnimationController animation = AnimationUtils.loadLayoutAnimation(MainActivity.this, resId);
+                mActivityMainRecycler.setLayoutAnimation(animation);
             }
 
             @Override
