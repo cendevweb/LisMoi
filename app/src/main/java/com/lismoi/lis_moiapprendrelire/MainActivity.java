@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private CategoryAdapter mAdapter;
     private Button mActivityMainButton;
     List<String> wordsList = new ArrayList();
+    List<String> imageList = new ArrayList();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,11 +44,15 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                wordsList.add("banane");
+                wordsList.add("orange");
+                imageList.add("https://image.flaticon.com/icons/png/512/135/135620.png");
+                wordsList.add("fraise");
+                imageList.add("https://image.flaticon.com/icons/png/512/135/135717.png");
                 wordsList.add("pomme");
-                wordsList.add("peche");
+                imageList.add("https://image.flaticon.com/icons/png/512/135/135728.png");
                 TinyDB tinydb = new TinyDB(MainActivity.this);
                 tinydb.putListString("wordsList", (ArrayList<String>) wordsList);
+                tinydb.putListString("imageList", (ArrayList<String>) imageList);
 
             }
         });

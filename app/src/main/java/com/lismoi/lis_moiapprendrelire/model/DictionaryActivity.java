@@ -17,6 +17,7 @@ public class DictionaryActivity extends AppCompatActivity {
     private RecyclerView mActivityDictionaryRecycler;
     private DictionaryAdapter mAdapter;
     List<String> wordsList = new ArrayList();
+    List<String> imageList = new ArrayList();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +41,9 @@ public class DictionaryActivity extends AppCompatActivity {
     public void getWords() {
                 TinyDB tinydb = new TinyDB(DictionaryActivity.this);
                 wordsList = tinydb.getListString("wordsList");
+                imageList = tinydb.getListString("imageList");
 
-                mAdapter = new DictionaryAdapter(wordsList, DictionaryActivity.this);
+                mAdapter = new DictionaryAdapter(wordsList,imageList, DictionaryActivity.this);
                 mActivityDictionaryRecycler.setAdapter(mAdapter);
                 mActivityDictionaryRecycler.setLayoutManager(new LinearLayoutManager(DictionaryActivity.this));
     }

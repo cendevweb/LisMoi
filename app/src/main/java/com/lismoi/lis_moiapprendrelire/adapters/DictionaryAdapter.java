@@ -8,9 +8,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.lismoi.lis_moiapprendrelire.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 import java.util.Locale;
@@ -25,12 +27,14 @@ public class DictionaryAdapter extends RecyclerView.Adapter<DictionaryAdapter.Di
 
     private Context mContext;
     private List<String> mDictionaryList;
+    private List<String> mDictionaryImageList;
     private TextToSpeech mTextToSpeech;
 
 
-    public DictionaryAdapter(List<String> wordList, Context context) {
+    public DictionaryAdapter(List<String> wordsList, List<String> imageList, Context context) {
         this.mContext = context;
-        this.mDictionaryList = wordList;
+        this.mDictionaryList = wordsList;
+        this.mDictionaryImageList = imageList;
     }
 
     @Override
@@ -43,9 +47,12 @@ public class DictionaryAdapter extends RecyclerView.Adapter<DictionaryAdapter.Di
     @Override
     public void onBindViewHolder(final DictionaryViewHolder holder, int position) {
         String word = mDictionaryList.get(position);
+        String image = mDictionaryImageList.get(position);
         holder.mDictionaryItemName.setText(word);
         Typeface font = Typeface.createFromAsset(mContext.getAssets(), "font/soft_marshmallow.ttf");
         holder.mDictionaryItemName.setTypeface(font);
+        Picasso.with(mContext).load(image).into(holder.mDictionaryItemImage);
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -70,11 +77,13 @@ public class DictionaryAdapter extends RecyclerView.Adapter<DictionaryAdapter.Di
     class DictionaryViewHolder extends RecyclerView.ViewHolder {
 
         public TextView mDictionaryItemName;
+        public ImageView mDictionaryItemImage;
 
         public DictionaryViewHolder(View v) {
             super(v);
 
             mDictionaryItemName = v.findViewById(R.id.dictionary_item_name);
+            mDictionaryItemImage = v.findViewById(R.id.dictionary_item_image);
         }
     }
 }
