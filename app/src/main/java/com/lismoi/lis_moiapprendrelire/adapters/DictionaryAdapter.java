@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.speech.tts.TextToSpeech;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,19 +16,16 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 import java.util.Locale;
 
-import static android.content.ContentValues.TAG;
-
 /**
  * Created by Cen on 21/10/2017.
  */
 
-public class DictionaryAdapter extends RecyclerView.Adapter<DictionaryAdapter.DictionaryViewHolder>{
+public class DictionaryAdapter extends RecyclerView.Adapter<DictionaryAdapter.DictionaryViewHolder> {
 
     private Context mContext;
     private List<String> mDictionaryList;
     private List<String> mDictionaryImageList;
     private TextToSpeech mTextToSpeech;
-
 
     public DictionaryAdapter(List<String> wordsList, List<String> imageList, Context context) {
         this.mContext = context;
@@ -51,21 +47,20 @@ public class DictionaryAdapter extends RecyclerView.Adapter<DictionaryAdapter.Di
         holder.mDictionaryItemName.setText(word);
         Typeface font = Typeface.createFromAsset(mContext.getAssets(), "font/soft_marshmallow.ttf");
         holder.mDictionaryItemName.setTypeface(font);
+
         Picasso.with(mContext).load(image).into(holder.mDictionaryItemImage);
+
         mTextToSpeech = new TextToSpeech(mContext, new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
                 mTextToSpeech.setLanguage(Locale.FRENCH);
                 mTextToSpeech.setSpeechRate(0.8f);
-
             }
         });
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.e(TAG, word);
-
-
                 mTextToSpeech.speak(word, TextToSpeech.QUEUE_FLUSH, null);
             }
         });
@@ -75,12 +70,13 @@ public class DictionaryAdapter extends RecyclerView.Adapter<DictionaryAdapter.Di
     public int getItemCount() {
         return mDictionaryList.size();
     }
+
     class DictionaryViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView mDictionaryItemName;
-        public ImageView mDictionaryItemImage;
+        private TextView mDictionaryItemName;
+        private ImageView mDictionaryItemImage;
 
-        public DictionaryViewHolder(View v) {
+        private DictionaryViewHolder(View v) {
             super(v);
 
             mDictionaryItemName = v.findViewById(R.id.dictionary_item_name);

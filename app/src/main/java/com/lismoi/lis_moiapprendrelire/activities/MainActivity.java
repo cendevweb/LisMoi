@@ -1,4 +1,4 @@
-package com.lismoi.lis_moiapprendrelire;
+package com.lismoi.lis_moiapprendrelire.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,9 +12,12 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.widget.Button;
 
+import com.lismoi.lis_moiapprendrelire.R;
+import com.lismoi.lis_moiapprendrelire.RequestService;
+import com.lismoi.lis_moiapprendrelire.TinyDB;
+import com.lismoi.lis_moiapprendrelire.WordsActivity;
 import com.lismoi.lis_moiapprendrelire.adapters.CategoryAdapter;
 import com.lismoi.lis_moiapprendrelire.model.Category;
-import com.lismoi.lis_moiapprendrelire.model.DictionaryActivity;
 import com.lismoi.lis_moiapprendrelire.model.Word;
 import com.lismoi.lis_moiapprendrelire.model.WordsList;
 
@@ -74,16 +77,6 @@ public class MainActivity extends AppCompatActivity implements CategoryAdapter.C
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
-        }
-    }
-
-    private enum Categories {
-        FRUIT("Fruit"), ANIMAL("Animal");
-
-        private String categoryName;
-
-        Categories(String category) {
-            this.categoryName = category;
         }
     }
 
