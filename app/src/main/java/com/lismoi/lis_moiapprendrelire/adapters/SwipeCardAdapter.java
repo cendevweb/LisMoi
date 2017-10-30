@@ -2,6 +2,7 @@ package com.lismoi.lis_moiapprendrelire.adapters;
 
 import android.content.Context;
 import android.speech.tts.TextToSpeech;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ public class SwipeCardAdapter extends BaseAdapter {
     private LayoutInflater mLayoutInflater;
     private WordsList mWordsList;
     private TextToSpeech mTextToSpeech;
+    private ViewHolder mViewHolder;
 
     public SwipeCardAdapter(Context context, LayoutInflater layoutInflater, WordsList wordsList) {
         this.mContext = context;
@@ -50,25 +52,24 @@ public class SwipeCardAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder;
-
         if (convertView == null) {
             convertView = mLayoutInflater.inflate(R.layout.word_card, parent, false);
 
-            viewHolder = new ViewHolder();
-            viewHolder.wordText = convertView.findViewById(R.id.word_card_word);
-            viewHolder.wordImage = convertView.findViewById(R.id.word_card_image);
-            viewHolder.sayWordImage = convertView.findViewById(R.id.word_card_say_word);
+            mViewHolder = new ViewHolder();
+            mViewHolder.wordLayout = convertView.findViewById(R.id.word_card_layout);
+            mViewHolder.wordText = convertView.findViewById(R.id.word_card_word);
+            mViewHolder.wordImage = convertView.findViewById(R.id.word_card_image);
+            mViewHolder.sayWordImage = convertView.findViewById(R.id.word_card_say_word);
 
-            convertView.setTag(viewHolder);
+            convertView.setTag(mViewHolder);
         } else {
-            viewHolder = (ViewHolder) convertView.getTag();
+            mViewHolder = (ViewHolder) convertView.getTag();
         }
 
         final Word word = mWordsList.getWordList().get(position);
 
-        viewHolder.wordText.setText(word.getWord());
-        Picasso.with(mContext).load(word.getImageUrl()).into(viewHolder.wordImage);
+        mViewHolder.wordText.setText(word.getWord());
+        Picasso.with(mContext).load(word.getImageUrl()).into(mViewHolder.wordImage);
 
         mTextToSpeech = new TextToSpeech(mContext, new TextToSpeech.OnInitListener() {
             @Override
@@ -78,7 +79,7 @@ public class SwipeCardAdapter extends BaseAdapter {
             }
         });
 
-        viewHolder.sayWordImage.setOnClickListener(new View.OnClickListener() {
+        mViewHolder.sayWordImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mTextToSpeech.speak(word.getWord(), TextToSpeech.QUEUE_FLUSH, null);
@@ -89,8 +90,9 @@ public class SwipeCardAdapter extends BaseAdapter {
     }
 
     private static class ViewHolder {
-        public TextView wordText;
-        public ImageView wordImage;
-        public ImageView sayWordImage;
+        private CardView wordLayout;
+        private TextView wordText;
+        private ImageView wordImage;
+        private ImageView sayWordImage;
     }
 }

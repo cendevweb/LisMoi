@@ -1,4 +1,5 @@
 <resources>
-    <string name="app_name">Lis-moi : Apprendre à lire</string>
+    <string name="app_name">Lis-moi : Imagier virtuel</string>
     <string name="words_number">Contient %d mots</string>
+    <string name="add_to_dictionnary">Ajouter au dictionnaire</string>
 </resources>

@@ -20,10 +20,12 @@
         </activity>
 
         <activity
-            android:name=".WordsActivity"
+            android:name=".activities.WordsActivity"
             android:parentActivityName=".activities.MainActivity" />
 
-        <activity android:name=".activities.DictionaryActivity"></activity>
+        <activity
+            android:name=".activities.DictionaryActivity"
+            android:parentActivityName=".activities.MainActivity" />
     </application>
 
 </manifest>

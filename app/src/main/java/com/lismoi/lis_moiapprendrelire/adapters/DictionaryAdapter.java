@@ -44,9 +44,12 @@ public class DictionaryAdapter extends RecyclerView.Adapter<DictionaryAdapter.Di
     public void onBindViewHolder(final DictionaryViewHolder holder, int position) {
         final String word = mDictionaryList.get(position);
         String image = mDictionaryImageList.get(position);
-        holder.mDictionaryItemName.setText(word);
+
         Typeface font = Typeface.createFromAsset(mContext.getAssets(), "font/soft_marshmallow.ttf");
         holder.mDictionaryItemName.setTypeface(font);
+
+        String upperString = word.substring(0,1).toUpperCase() + word.substring(1);
+        holder.mDictionaryItemName.setText(upperString);
 
         Picasso.with(mContext).load(image).into(holder.mDictionaryItemImage);
 

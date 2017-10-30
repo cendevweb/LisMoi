@@ -12,7 +12,6 @@ import android.view.animation.LayoutAnimationController;
 
 import com.lismoi.lis_moiapprendrelire.R;
 import com.lismoi.lis_moiapprendrelire.RequestService;
-import com.lismoi.lis_moiapprendrelire.WordsActivity;
 import com.lismoi.lis_moiapprendrelire.adapters.CategoryAdapter;
 import com.lismoi.lis_moiapprendrelire.model.Category;
 import com.lismoi.lis_moiapprendrelire.model.Word;
@@ -30,7 +29,8 @@ public class MainActivity extends AppCompatActivity implements CategoryAdapter.C
 
     private RecyclerView mActivityMainRecycler;
     private CategoryAdapter mAdapter;
- @Override
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -95,6 +95,7 @@ public class MainActivity extends AppCompatActivity implements CategoryAdapter.C
                 mAdapter = new CategoryAdapter(categoryList, MainActivity.this, MainActivity.this);
                 mActivityMainRecycler.setAdapter(mAdapter);
                 mActivityMainRecycler.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+
                 int resId = R.anim.layout_animation_slide_in;
                 LayoutAnimationController animation = AnimationUtils.loadLayoutAnimation(MainActivity.this, resId);
                 mActivityMainRecycler.setLayoutAnimation(animation);
