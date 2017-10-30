@@ -103,13 +103,7 @@ public class WordsActivity extends AppCompatActivity implements RecognitionListe
         mRecognizerIntent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 3);
         mRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
 
-        mTextToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
-            @Override
-            public void onInit(int status) {
-                mTextToSpeech.setLanguage(Locale.FRENCH);
-                mTextToSpeech.setSpeechRate(0.5f);
-            }
-        });
+
 
 //        TODO : use on say text
 //        mSayText.setOnClickListener(new View.OnClickListener() {

@@ -5,10 +5,11 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.Button;
 
 import com.lismoi.lis_moiapprendrelire.adapters.CategoryAdapter;
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements CategoryAdapter.C
     private Button mActivityMainButton;
     List<String> wordsList = new ArrayList();
     List<String> imageList = new ArrayList();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements CategoryAdapter.C
         mActivityMainRecycler = (RecyclerView) findViewById(R.id.activity_main_recycler);
         mActivityMainButton = (Button) findViewById(R.id.activity_main_button);
 
-        mActivityMainButton.setOnClickListener(new View.OnClickListener(){
+        mActivityMainButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
@@ -59,12 +61,13 @@ public class MainActivity extends AppCompatActivity implements CategoryAdapter.C
         getWords();
     }
 
-    public boolean onCreateOptionsMenu(Menu menu){
+    public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
         return true;
     }
+
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.action_dictionary:
                 Intent intent = new Intent(MainActivity.this, DictionaryActivity.class);
                 startActivity(intent);
@@ -73,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements CategoryAdapter.C
                 return super.onOptionsItemSelected(item);
         }
     }
+
     private enum Categories {
         FRUIT("Fruit"), ANIMAL("Animal");
 
@@ -123,6 +127,9 @@ public class MainActivity extends AppCompatActivity implements CategoryAdapter.C
                 mAdapter = new CategoryAdapter(categoryList, MainActivity.this, MainActivity.this);
                 mActivityMainRecycler.setAdapter(mAdapter);
                 mActivityMainRecycler.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+                int resId = R.anim.layout_animation_slide_in;
+                LayoutAnimationController animation = AnimationUtils.loadLayoutAnimation(MainActivity.this, resId);
+                mActivityMainRecycler.setLayoutAnimation(animation);
             }
 
             @Override
