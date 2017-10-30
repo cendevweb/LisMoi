@@ -23,7 +23,7 @@
             android:name=".WordsActivity"
             android:parentActivityName=".MainActivity" />
 
-        <activity android:name=".model.DictionaryActivity"></activity>
+        <activity android:name=".DictionaryActivity"></activity>
     </application>
 
 </manifest>

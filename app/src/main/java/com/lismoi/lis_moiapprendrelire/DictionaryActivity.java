@@ -1,13 +1,11 @@
-package com.lismoi.lis_moiapprendrelire.model;
+package com.lismoi.lis_moiapprendrelire;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.lismoi.lis_moiapprendrelire.R;
-import com.lismoi.lis_moiapprendrelire.TinyDB;
-import com.lismoi.lis_moiapprendrelire.adapters.DictionaryAdapter;
+import com.lismoi.lis_moiapprendrelire.model.DictionaryAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

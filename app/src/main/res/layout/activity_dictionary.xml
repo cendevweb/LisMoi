@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.lismoi.lis_moiapprendrelire.model.DictionaryActivity">
+    tools:context="com.lismoi.lis_moiapprendrelire.DictionaryActivity">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/activity_dictionary_recycler"

@@ -18,10 +18,12 @@ import android.widget.Toast;
 
 import com.lismoi.lis_moiapprendrelire.adapters.SwipeCardAdapter;
 import com.lismoi.lis_moiapprendrelire.model.Category;
+import com.lismoi.lis_moiapprendrelire.model.Word;
 import com.lismoi.lis_moiapprendrelire.model.WordsList;
 import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 public class WordsActivity extends AppCompatActivity implements RecognitionListener {
@@ -32,6 +34,9 @@ public class WordsActivity extends AppCompatActivity implements RecognitionListe
     private TextToSpeech mTextToSpeech;
     private SwipeFlingAdapterView mSwipeFlingAdapterView;
     private Button mNextButton;
+    private Button mAddButton;
+    List<String> dicoWordList = new ArrayList();
+    List<String> dicoImageList = new ArrayList();
 
     private SwipeCardAdapter swipeCardAdapter;
     private WordsList mWordsList;
@@ -44,9 +49,28 @@ public class WordsActivity extends AppCompatActivity implements RecognitionListe
         if (getIntent().getExtras() != null) {
             mCategory = (Category) getIntent().getExtras().get("categoryObj");
         }
-
+        final TinyDB tinydb = new TinyDB(WordsActivity.this);
         mSwipeFlingAdapterView = (SwipeFlingAdapterView) findViewById(R.id.activity_words_SwipeFlingAdapterView);
         mNextButton = (Button) findViewById(R.id.activity_word_next_button);
+        mAddButton = (Button) findViewById(R.id.activity_word_add_button);
+
+        mAddButton.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+
+                Word word = (Word) swipeCardAdapter.getItem(0);
+                dicoWordList = tinydb.getListString("wordsList");
+                dicoImageList = tinydb.getListString("imageList");
+                if (!dicoWordList.contains(word.getWord())){
+                    dicoWordList.add(word.getWord());
+                    dicoImageList.add(word.getImageUrl());
+                }
+                tinydb.putListString("wordsList", (ArrayList<String>) dicoWordList);
+                tinydb.putListString("imageList", (ArrayList<String>) dicoImageList);
+
+            }
+        });
 
         mWordsList = mCategory.getWordsList();
 

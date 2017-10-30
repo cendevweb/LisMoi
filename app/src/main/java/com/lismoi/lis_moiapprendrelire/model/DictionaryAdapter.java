@@ -1,4 +1,4 @@
-package com.lismoi.lis_moiapprendrelire.adapters;
+package com.lismoi.lis_moiapprendrelire.model;
 
 import android.content.Context;
 import android.graphics.Typeface;

@@ -20,5 +20,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Swipe Next" />
+    <Button
+        android:id="@+id/activity_word_add_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ajouter au dictionnaire"/>
 
 </LinearLayout>
