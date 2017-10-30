@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.lismoi.lis_moiapprendrelire.R;
 import com.lismoi.lis_moiapprendrelire.model.Word;
 import com.lismoi.lis_moiapprendrelire.model.WordsList;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by Phil on 22/10/2017.
@@ -62,7 +63,7 @@ public class SwipeCardAdapter extends BaseAdapter {
         Word word = mWordsList.getWordList().get(position);
 
         viewHolder.wordText.setText(word.getWord());
-//        viewHolder.wordImage.set(word.getText2());
+        Picasso.with(mContext).load(word.getImageUrl()).into(viewHolder.wordImage);
 
         return convertView;
     }

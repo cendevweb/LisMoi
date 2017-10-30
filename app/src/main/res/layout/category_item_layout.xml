@@ -17,10 +17,12 @@
             android:background="@color/colorAccent" />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/category_item_image"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_gravity="center"
-            android:padding="16dp"
+            android:layout_margin="8dp"
+            android:padding="8dp"
             android:src="@drawable/ic_account_circle" />
 
         <LinearLayout

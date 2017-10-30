@@ -6,11 +6,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.lismoi.lis_moiapprendrelire.R;
 import com.lismoi.lis_moiapprendrelire.model.Category;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -48,6 +50,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         holder.mCategoryItemWordsNumber.setText(
                 String.format(mContext.getString(R.string.words_number), category.getWordsInCategoryNumber()));
 
+        Picasso.with(mContext).load(category.getImageUrl()).into(holder.mCategoryItemImage);
+
         holder.mCategoryItemLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -66,12 +70,14 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
         public TextView mCategoryItemName;
         public TextView mCategoryItemWordsNumber;
+        public ImageView mCategoryItemImage;
         public LinearLayout mCategoryItemLayout;
 
         public CategoryViewHolder(View v) {
             super(v);
 
             mCategoryItemName = v.findViewById(R.id.category_item_name);
+            mCategoryItemImage = v.findViewById(R.id.category_item_image);
             mCategoryItemWordsNumber = v.findViewById(R.id.category_item_words_number);
             mCategoryItemLayout = v.findViewById(R.id.category_item_layout);
         }

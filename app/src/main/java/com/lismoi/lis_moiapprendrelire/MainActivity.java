@@ -44,8 +44,6 @@ public class MainActivity extends AppCompatActivity implements CategoryAdapter.C
         requestService.getAllWords(new Callback<WordsList>() {
             @Override
             public void success(WordsList words, Response response) {
-                Log.d("DEBUG", String.valueOf(words));
-
                 List<String> categoryStringList = new ArrayList<>();
 
                 for (Word word : words.getWordList()) {
@@ -64,6 +62,8 @@ public class MainActivity extends AppCompatActivity implements CategoryAdapter.C
                         if (word.getCategory().equals(categoryStringList.get(i))) {
                             category.updateWordsNumber();
                             wordsList.addWordToList(word);
+
+                            category.setImageUrl(word.getImageUrl());
                         }
                     }
 
