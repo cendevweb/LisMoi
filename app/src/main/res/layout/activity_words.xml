@@ -35,7 +35,9 @@
             android:id="@+id/activity_word_add_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/add_to_dictionnary" />
+            android:paddingHorizontal="20dp"
+            android:drawableLeft="@drawable/ic_add"
+            android:drawableRight="@drawable/ic_text_format_black"/>
 
     </LinearLayout>
 
