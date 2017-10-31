@@ -42,7 +42,11 @@ public class SwipeCardAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return mWordsList.getWordList().get(position);
+        if (mWordsList.getWordList().size() > 0) {
+            return mWordsList.getWordList().get(position);
+        }
+
+        return null;
     }
 
     @Override

@@ -20,10 +20,10 @@ import android.widget.Toast;
 import com.lismoi.lis_moiapprendrelire.R;
 import com.lismoi.lis_moiapprendrelire.TinyDB;
 import com.lismoi.lis_moiapprendrelire.adapters.SwipeCardAdapter;
+import com.lismoi.lis_moiapprendrelire.cardsStack.SwingFlingAdapterView;
 import com.lismoi.lis_moiapprendrelire.model.Category;
 import com.lismoi.lis_moiapprendrelire.model.Word;
 import com.lismoi.lis_moiapprendrelire.model.WordsList;
-import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +35,7 @@ public class WordsActivity extends AppCompatActivity implements RecognitionListe
     private Intent mRecognizerIntent;
     private Category mCategory;
     private TextToSpeech mTextToSpeech;
-    private SwipeFlingAdapterView mSwipeFlingAdapterView;
+    private SwingFlingAdapterView mSwipeFlingAdapterView;
     private Button mAddButton;
     private List<String> dicoWordList = new ArrayList();
     private List<String> dicoImageList = new ArrayList();
@@ -56,7 +56,7 @@ public class WordsActivity extends AppCompatActivity implements RecognitionListe
 
         mTinydb = new TinyDB(WordsActivity.this);
         mMicrophoneButton = (ImageView) findViewById(R.id.activity_word_microphone_button);
-        mSwipeFlingAdapterView = (SwipeFlingAdapterView) findViewById(R.id.activity_words_SwipeFlingAdapterView);
+        mSwipeFlingAdapterView = (SwingFlingAdapterView) findViewById(R.id.activity_words_SwipeFlingAdapterView);
         mAddButton = (Button) findViewById(R.id.activity_word_add_button);
 
         mAddButton.setOnClickListener(mAddButtonListener);
@@ -69,7 +69,7 @@ public class WordsActivity extends AppCompatActivity implements RecognitionListe
 
         mSwipeFlingAdapterView.setAdapter(mSwipeCardAdapter);
 
-        mSwipeFlingAdapterView.setFlingListener(new SwipeFlingAdapterView.onFlingListener() {
+        mSwipeFlingAdapterView.setFlingListener(new SwingFlingAdapterView.onFlingListener() {
             @Override
             public void removeFirstObjectInAdapter() {
                 mWordsList.getWordList().remove(0);
@@ -132,12 +132,13 @@ public class WordsActivity extends AppCompatActivity implements RecognitionListe
 
         @Override
         public void onClick(View view) {
+            mSwipeFlingAdapterView.getTopCardListener().selectRight();
 
             Word word = (Word) mSwipeCardAdapter.getItem(0);
             dicoWordList = mTinydb.getListString("wordsList");
             dicoImageList = mTinydb.getListString("imageList");
 
-            if (!dicoWordList.contains(word.getWord())) {
+            if (word != null && !dicoWordList.contains(word.getWord())) {
                 dicoWordList.add(word.getWord());
                 dicoImageList.add(word.getImageUrl());
             }
