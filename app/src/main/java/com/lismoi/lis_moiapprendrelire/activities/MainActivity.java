@@ -12,6 +12,7 @@ import android.view.animation.LayoutAnimationController;
 
 import com.lismoi.lis_moiapprendrelire.R;
 import com.lismoi.lis_moiapprendrelire.RequestService;
+import com.lismoi.lis_moiapprendrelire.TinyDB;
 import com.lismoi.lis_moiapprendrelire.adapters.CategoryAdapter;
 import com.lismoi.lis_moiapprendrelire.model.Category;
 import com.lismoi.lis_moiapprendrelire.model.Word;
@@ -34,6 +35,11 @@ public class MainActivity extends AppCompatActivity implements CategoryAdapter.C
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        TinyDB tinyDB = new TinyDB(this);
+        if (tinyDB.getInt("levelLocked") == 0) {
+            tinyDB.putInt("levelLocked", 1);
+        }
 
         mActivityMainRecycler = (RecyclerView) findViewById(R.id.activity_main_recycler);
         getWords();

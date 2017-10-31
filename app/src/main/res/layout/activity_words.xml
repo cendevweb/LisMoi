@@ -31,11 +31,10 @@
             android:id="@+id/activity_word_add_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="20dp"
-            android:drawableLeft="@drawable/ic_add"
-            android:drawableRight="@drawable/ic_text_format_black"/>
+            android:drawableEnd="@drawable/ic_text_format_black"
+            android:drawableStart="@drawable/ic_add"
+            android:paddingHorizontal="20dp" />
 
     </LinearLayout>
-
 
 </FrameLayout>

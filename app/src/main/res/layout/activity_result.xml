@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.lismoi.lis_moiapprendrelire.activities.ResultActivity">
+    android:orientation="vertical">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Fin du niveau"
         android:gravity="center"
-        android:textStyle="bold"
-        android:textSize="24sp"/>
+        android:text="@string/end_of_level"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
     <TextView
+        android:id="@+id/result_score"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/result_score"/>
+        android:layout_height="wrap_content" />
+
 </LinearLayout>

@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.lismoi.lis_moiapprendrelire.R;
+import com.lismoi.lis_moiapprendrelire.TinyDB;
 import com.lismoi.lis_moiapprendrelire.model.Category;
 import com.squareup.picasso.Picasso;
 
@@ -50,15 +51,24 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         holder.mCategoryItemWordsNumber.setText(
                 String.format(mContext.getString(R.string.words_number), category.getWordsInCategoryNumber()));
 
+        TinyDB tinyDB = new TinyDB(mContext);
+        int lockedLevel = tinyDB.getInt("levelLocked");
+
         Picasso.with(mContext).load(category.getImageUrl()).into(holder.mCategoryItemImage);
 
-        holder.mCategoryItemLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mCategoryAdapterListener != null)
-                    mCategoryAdapterListener.onCategoryClicked(category);
-            }
-        });
+        if (position > lockedLevel) {
+            holder.mCategoryLockedLayout.setVisibility(View.VISIBLE);
+        } else {
+            holder.mCategoryItemLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (mCategoryAdapterListener != null)
+                        mCategoryAdapterListener.onCategoryClicked(category);
+                }
+            });
+
+            holder.mCategoryLockedLayout.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -68,18 +78,20 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
     class CategoryViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView mCategoryItemName;
-        public TextView mCategoryItemWordsNumber;
-        public ImageView mCategoryItemImage;
-        public LinearLayout mCategoryItemLayout;
+        private TextView mCategoryItemName;
+        private TextView mCategoryItemWordsNumber;
+        private ImageView mCategoryItemImage;
+        private LinearLayout mCategoryItemLayout;
+        private LinearLayout mCategoryLockedLayout;
 
-        public CategoryViewHolder(View v) {
+        private CategoryViewHolder(View v) {
             super(v);
 
             mCategoryItemName = v.findViewById(R.id.category_item_name);
             mCategoryItemImage = v.findViewById(R.id.category_item_image);
             mCategoryItemWordsNumber = v.findViewById(R.id.category_item_words_number);
             mCategoryItemLayout = v.findViewById(R.id.category_item_layout);
+            mCategoryLockedLayout = v.findViewById(R.id.category_item_locked_layout);
         }
     }
 

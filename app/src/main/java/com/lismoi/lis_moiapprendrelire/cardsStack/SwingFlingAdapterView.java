@@ -5,9 +5,12 @@ import android.content.Context;
 import android.database.DataSetObserver;
 import android.graphics.PointF;
 import android.os.Build;
+import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Adapter;
 import android.widget.FrameLayout;
 
@@ -47,7 +50,9 @@ public class SwingFlingAdapterView extends BaseFlingAdapterView {
 
     public void setWrong() {
         mActiveCard.setAlpha(1);
-        mActiveCard.setBackgroundColor(getResources().getColor(R.color.errorColor));
+        Animation shake = AnimationUtils.loadAnimation(getContext(), R.anim.shake);
+        mActiveCard.startAnimation(shake);
+        ((CardView) mActiveCard).setCardBackgroundColor(getResources().getColor(R.color.errorColor));
     }
 
     /**

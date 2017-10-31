@@ -44,7 +44,9 @@ public class WordsActivity extends AppCompatActivity implements RecognitionListe
     private WordsList mWordsList;
     private TinyDB mTinydb;
     public Integer nbItem;
-    public int nbSucces = 0;
+    public int nbSuccess = 0;
+
+    private int mTryNumber = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -191,7 +193,6 @@ public class WordsActivity extends AppCompatActivity implements RecognitionListe
                 Log.d("DEBUG error", String.valueOf(SpeechRecognizer.ERROR_NETWORK_TIMEOUT));
                 break;
             case SpeechRecognizer.ERROR_NO_MATCH:
-                mSwipeFlingAdapterView.setWrong();
                 Log.d("DEBUG error", String.valueOf(SpeechRecognizer.ERROR_NO_MATCH));
                 break;
             case SpeechRecognizer.ERROR_RECOGNIZER_BUSY:
@@ -212,26 +213,42 @@ public class WordsActivity extends AppCompatActivity implements RecognitionListe
     @Override
     public void onResults(Bundle bundle) {
         ArrayList<String> matches = bundle.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+        Log.d("DEBUG", String.valueOf(matches));
 
         if (matches != null) {
-            for (String match : matches) {
+            int wordsNumber = matches.size();
+            int wordsMissed = 0;
+
+            for (int i = 0; i < matches.size(); i++) {
+                String match = matches.get(i);
                 Word word = (Word) mSwipeCardAdapter.getItem(0);
                 if (match.toLowerCase().equals(word.getWord().toLowerCase())) {
+                    nbSuccess++;
+
                     if (mSwipeCardAdapter.getCount() > 1) {
                         mSwipeFlingAdapterView.getTopCardListener().selectRight();
-                        nbSucces = nbSucces+1;
-                    }else{
-                        nbSucces = nbSucces+1;
+                    } else {
                         Intent mIntent = new Intent(WordsActivity.this, ResultActivity.class);
-                        mIntent.putExtra("nbItem",nbItem);
-                        mIntent.putExtra("nbSucces",nbSucces);
+                        mIntent.putExtra("nbItem", nbItem);
+                        mIntent.putExtra("nbSuccess", nbSuccess);
                         startActivity(mIntent);
                     }
+                    return;
+                } else {
+                    wordsMissed++;
                 }
             }
-        }
 
-        Log.d("DEBUG", String.valueOf(matches));
+            if (wordsMissed == wordsNumber) {
+                mSwipeFlingAdapterView.setWrong();
+                mTryNumber++;
+            }
+
+            if (mTryNumber == 3) {
+                mSwipeFlingAdapterView.getTopCardListener().selectRight();
+                mTryNumber = 0;
+            }
+        }
     }
 
     @Override
