@@ -40,10 +40,11 @@ public class WordsActivity extends AppCompatActivity implements RecognitionListe
     private List<String> dicoWordList = new ArrayList();
     private List<String> dicoImageList = new ArrayList();
     private ImageView mMicrophoneButton;
-
     private SwipeCardAdapter mSwipeCardAdapter;
     private WordsList mWordsList;
     private TinyDB mTinydb;
+    public Integer nbItem;
+    public int nbSucces = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,7 +95,7 @@ public class WordsActivity extends AppCompatActivity implements RecognitionListe
 
             }
         });
-
+        nbItem = mCategory.getWordsInCategoryNumber();
         mMicrophoneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -216,7 +217,16 @@ public class WordsActivity extends AppCompatActivity implements RecognitionListe
             for (String match : matches) {
                 Word word = (Word) mSwipeCardAdapter.getItem(0);
                 if (match.toLowerCase().equals(word.getWord().toLowerCase())) {
-                    mSwipeFlingAdapterView.getTopCardListener().selectRight();
+                    if (mSwipeCardAdapter.getCount() > 1) {
+                        mSwipeFlingAdapterView.getTopCardListener().selectRight();
+                        nbSucces = nbSucces+1;
+                    }else{
+                        nbSucces = nbSucces+1;
+                        Intent mIntent = new Intent(WordsActivity.this, ResultActivity.class);
+                        mIntent.putExtra("nbItem",nbItem);
+                        mIntent.putExtra("nbSucces",nbSucces);
+                        startActivity(mIntent);
+                    }
                 }
             }
         }

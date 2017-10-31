@@ -18,14 +18,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".activities.WordsActivity"
             android:parentActivityName=".activities.MainActivity" />
-
         <activity
             android:name=".activities.DictionaryActivity"
             android:parentActivityName=".activities.MainActivity" />
+        <activity android:name=".activities.ResultActivity"></activity>
     </application>
 
 </manifest>
