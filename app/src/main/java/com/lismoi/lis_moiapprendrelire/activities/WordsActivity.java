@@ -43,10 +43,9 @@ public class WordsActivity extends AppCompatActivity implements RecognitionListe
     private SwipeCardAdapter mSwipeCardAdapter;
     private WordsList mWordsList;
     private TinyDB mTinydb;
-    public Integer nbItem;
-    public int nbSuccess = 0;
-
     private int mTryNumber = 0;
+    public double nbItem;
+    public double nbSuccess = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://C:\Users\Phil\AndroidStudioProjects\LismoiApprendrealire\LisMoi.iml" filepath="C:\Users\Phil\AndroidStudioProjects\LismoiApprendrealire\LisMoi.iml" />
-      <module fileurl="file://$PROJECT_DIR$/LismoiApprendrealire.iml" filepath="$PROJECT_DIR$/LismoiApprendrealire.iml" />
-      <module fileurl="file://C:\Users\Cen\Desktop\work\lem\lismoi\LisMoi\LismoiApprendrealire.iml" filepath="C:\Users\Cen\Desktop\work\lem\lismoi\LisMoi\LismoiApprendrealire.iml" />
+      <module fileurl="file://$PROJECT_DIR$/LisMoi.iml" filepath="$PROJECT_DIR$/LisMoi.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

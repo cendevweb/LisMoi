@@ -10,4 +10,8 @@
     <color name="purpleLight">#8458AB</color>
 
     <color name="errorColor">#e12d35</color>
+
+    <color name="grey">#ccc</color>
+    <color name="yellow">#DBC23A</color>
+
 </resources>

@@ -2,7 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    tools:context="com.lismoi.lis_moiapprendrelire.activities.ResultActivity"
+    android:id="@+id/result_layout">
+
 
     <TextView
         android:layout_width="match_parent"
@@ -13,8 +17,14 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/result_score"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
+        android:layout_height="wrap_content"
+        android:id="@+id/result_score"/>
+    <RatingBar
+        android:id="@+id/result_rating_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:numStars="4"
+        android:rating="2"
+        android:theme="@style/RatingBar"/>
 </LinearLayout>
