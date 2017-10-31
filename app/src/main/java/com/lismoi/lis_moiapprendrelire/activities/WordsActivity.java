@@ -132,8 +132,6 @@ public class WordsActivity extends AppCompatActivity implements RecognitionListe
 
         @Override
         public void onClick(View view) {
-            mSwipeFlingAdapterView.getTopCardListener().selectRight();
-
             Word word = (Word) mSwipeCardAdapter.getItem(0);
             dicoWordList = mTinydb.getListString("wordsList");
             dicoImageList = mTinydb.getListString("imageList");
@@ -192,6 +190,7 @@ public class WordsActivity extends AppCompatActivity implements RecognitionListe
                 Log.d("DEBUG error", String.valueOf(SpeechRecognizer.ERROR_NETWORK_TIMEOUT));
                 break;
             case SpeechRecognizer.ERROR_NO_MATCH:
+                mSwipeFlingAdapterView.setWrong();
                 Log.d("DEBUG error", String.valueOf(SpeechRecognizer.ERROR_NO_MATCH));
                 break;
             case SpeechRecognizer.ERROR_RECOGNIZER_BUSY:

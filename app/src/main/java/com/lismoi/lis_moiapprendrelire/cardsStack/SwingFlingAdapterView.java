@@ -2,7 +2,6 @@ package com.lismoi.lis_moiapprendrelire.cardsStack;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.database.DataSetObserver;
 import android.graphics.PointF;
 import android.os.Build;
@@ -35,23 +34,21 @@ public class SwingFlingAdapterView extends BaseFlingAdapterView {
     private PointF mLastTouchPoint;
 
     public SwingFlingAdapterView(Context context) {
-        this(context, null);
+        super(context);
     }
 
     public SwingFlingAdapterView(Context context, AttributeSet attrs) {
-        this(context, attrs, R.attr.SwipeFlingStyle);
+        super(context, attrs);
     }
 
     public SwingFlingAdapterView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SwipeFlingAdapterView, defStyle, 0);
-        MAX_VISIBLE = a.getInt(R.styleable.SwipeFlingAdapterView_max_visible, MAX_VISIBLE);
-        MIN_ADAPTER_STACK = a.getInt(R.styleable.SwipeFlingAdapterView_min_adapter_stack, MIN_ADAPTER_STACK);
-        ROTATION_DEGREES = a.getFloat(R.styleable.SwipeFlingAdapterView_rotation_degrees, ROTATION_DEGREES);
-        a.recycle();
     }
 
+    public void setWrong() {
+        mActiveCard.setAlpha(1);
+        mActiveCard.setBackgroundColor(getResources().getColor(R.color.errorColor));
+    }
 
     /**
      * A shortcut method to set both the listeners and the adapter.
