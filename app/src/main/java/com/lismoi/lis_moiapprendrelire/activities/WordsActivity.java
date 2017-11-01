@@ -144,11 +144,6 @@ public class WordsActivity extends AppCompatActivity implements RecognitionListe
             }
             mTinydb.putListString("wordsList", (ArrayList<String>) dicoWordList);
             mTinydb.putListString("imageList", (ArrayList<String>) dicoImageList);
-            Intent mIntent = new Intent(WordsActivity.this, ResultActivity.class);
-            mIntent.putExtra("nbItem", nbItem);
-            mIntent.putExtra("nbSuccess", 6.0);
-            mIntent.putExtra("categoryName", mCategory.getCategoryName());
-            startActivity(mIntent);
 
         }
     };
@@ -235,6 +230,7 @@ public class WordsActivity extends AppCompatActivity implements RecognitionListe
                         Intent mIntent = new Intent(WordsActivity.this, ResultActivity.class);
                         mIntent.putExtra("nbItem", nbItem);
                         mIntent.putExtra("nbSuccess", nbSuccess);
+                        mIntent.putExtra("categoryName", mCategory.getCategoryName());
                         startActivity(mIntent);
                     }
                     return;
