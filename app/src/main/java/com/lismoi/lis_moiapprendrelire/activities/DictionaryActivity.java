@@ -19,6 +19,8 @@ public class DictionaryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dictionary);
 
+        getSupportActionBar().setTitle(R.string.my_dictionnary);
+
         mActivityDictionaryRecycler = (RecyclerView) findViewById(R.id.activity_dictionary_recycler);
 
         getWords();

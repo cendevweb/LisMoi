@@ -1,60 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/result_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/purpleDark"
+    android:gravity="center"
     android:orientation="vertical"
-    tools:context="com.lismoi.lis_moiapprendrelire.activities.ResultActivity"
-    android:id="@+id/result_layout"
-    android:background="@color/purpleDark">
+    tools:context="com.lismoi.lis_moiapprendrelire.activities.ResultActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_centerVertical="true"
-        >
+        android:orientation="vertical">
+
         <TextView
+            android:id="@+id/result_end_level"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:id="@+id/result_end_level"
             android:text="@string/end_of_level"
+            android:textColor="@android:color/white"
             android:textSize="34sp"
-            android:textColor="#dddddd"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
+
         <TextView
+            android:id="@+id/result_category_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:id="@+id/result_category_name"
-            android:textColor="#dddddd"
-            android:textSize="22sp"
-            android:layout_marginTop="12sp"/>
+            android:layout_marginTop="12sp"
+            android:textColor="@android:color/white"
+            android:textSize="22sp" />
+
         <View
             android:layout_width="230dp"
             android:layout_height="2dp"
-            android:layout_marginTop="12sp"
             android:layout_gravity="center_horizontal"
-            android:background="#dddddd" />
+            android:layout_marginTop="12sp"
+            android:background="@android:color/white" />
+
         <TextView
+            android:id="@+id/result_score"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/result_score"
             android:layout_marginTop="32dp"
-            android:textSize="24sp"
-            android:textColor="#dddddd"
             android:gravity="center_horizontal"
-            />
+            android:textColor="@android:color/white"
+            android:textSize="24sp" />
+
         <RatingBar
             android:id="@+id/result_rating_bar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="22dp"
             android:isIndicator="true"
             android:numStars="4"
             android:rating="2"
-            android:theme="@style/RatingBar"
-            android:layout_gravity="center"
-            android:layout_marginTop="22dp"/>
+            android:theme="@style/RatingBar" />
     </LinearLayout>
 </RelativeLayout>

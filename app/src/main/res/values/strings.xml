@@ -4,4 +4,5 @@
     <string name="add_to_dictionnary">Ajouter au dictionnaire</string>
     <string name="level_locked">Niveau bloqué</string>
     <string name="end_of_level">Fin du niveau</string>
+    <string name="my_dictionnary">Mon Dictionnaire</string>
 </resources>

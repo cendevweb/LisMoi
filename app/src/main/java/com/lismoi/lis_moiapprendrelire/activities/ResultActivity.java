@@ -21,7 +21,6 @@ public class ResultActivity extends AppCompatActivity {
     private double ratingRatio;
     private RelativeLayout mResultLayout;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,23 +51,23 @@ public class ResultActivity extends AppCompatActivity {
         mEndLevel.setTypeface(font);
         mScoreTxt.setTypeface(font);
         mCategoryName.setTypeface(font);
-        ratingRatio = nbSuccess/nbItem;
-        if (ratingRatio > 0.8){
+        ratingRatio = nbSuccess / nbItem;
+        if (ratingRatio > 0.8) {
             mRatingBar.setNumStars(5);
             mRatingBar.setRating(5);
-        }else if(ratingRatio > 0.6){
+        } else if (ratingRatio > 0.6) {
             mRatingBar.setNumStars(4);
             mRatingBar.setRating(4);
-        }else if(ratingRatio > 0.4){
+        } else if (ratingRatio > 0.4) {
             mRatingBar.setNumStars(3);
             mRatingBar.setRating(3);
-        }else if(ratingRatio > 0.2){
+        } else if (ratingRatio > 0.2) {
             mRatingBar.setNumStars(2);
             mRatingBar.setRating(2);
-        }else if(ratingRatio > 0){
+        } else if (ratingRatio > 0) {
             mRatingBar.setNumStars(1);
             mRatingBar.setRating(1);
-        }else{
+        } else {
             mRatingBar.setNumStars(0);
             mRatingBar.setRating(0);
         }
@@ -77,15 +76,15 @@ public class ResultActivity extends AppCompatActivity {
             public void run() {
                 mRatingBar.setVisibility(View.VISIBLE);
             }
-        }, 1500);
+        }, 200);
 
         mResultLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent mIntent = new Intent(ResultActivity.this, MainActivity.class);
                 startActivity(mIntent);
+                finish();
             }
         });
-
     }
 }
