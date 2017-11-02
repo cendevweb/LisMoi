@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.lismoi.lis_moiapprendrelire.R;
+import com.lismoi.lis_moiapprendrelire.RippleBackground;
 import com.lismoi.lis_moiapprendrelire.TinyDB;
 import com.lismoi.lis_moiapprendrelire.adapters.SwipeCardAdapter;
 import com.lismoi.lis_moiapprendrelire.cardsStack.SwingFlingAdapterView;
@@ -34,7 +35,6 @@ public class WordsActivity extends AppCompatActivity implements RecognitionListe
     private SpeechRecognizer mSpeechRecognizer;
     private Intent mRecognizerIntent;
     private Category mCategory;
-    private TextToSpeech mTextToSpeech;
     private SwingFlingAdapterView mSwipeFlingAdapterView;
     private Button mAddButton;
     private List<String> dicoWordList = new ArrayList();
@@ -46,6 +46,7 @@ public class WordsActivity extends AppCompatActivity implements RecognitionListe
     private int mTryNumber = 0;
     public double nbItem;
     public double nbSuccess = 0;
+    private RippleBackground mRippleBackground;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +61,7 @@ public class WordsActivity extends AppCompatActivity implements RecognitionListe
         mMicrophoneButton = (ImageView) findViewById(R.id.activity_word_microphone_button);
         mSwipeFlingAdapterView = (SwingFlingAdapterView) findViewById(R.id.activity_words_SwipeFlingAdapterView);
         mAddButton = (Button) findViewById(R.id.activity_word_add_button);
+        mRippleBackground = (RippleBackground) findViewById(R.id.activity_words_ripple_background);
 
         mAddButton.setOnClickListener(mAddButtonListener);
 
@@ -150,7 +152,7 @@ public class WordsActivity extends AppCompatActivity implements RecognitionListe
 
     @Override
     public void onReadyForSpeech(Bundle bundle) {
-        Toast.makeText(this, "onReadyForSpeech", Toast.LENGTH_SHORT).show();
+        mRippleBackground.startRippleAnimation();
     }
 
     @Override
@@ -170,7 +172,7 @@ public class WordsActivity extends AppCompatActivity implements RecognitionListe
 
     @Override
     public void onEndOfSpeech() {
-        Toast.makeText(this, "onEndOfSpeech", Toast.LENGTH_SHORT).show();
+        mRippleBackground.stopRippleAnimation();
     }
 
     @Override
@@ -232,6 +234,7 @@ public class WordsActivity extends AppCompatActivity implements RecognitionListe
                         mIntent.putExtra("nbSuccess", nbSuccess);
                         mIntent.putExtra("categoryName", mCategory.getCategoryName());
                         startActivity(mIntent);
+                        finish();
                     }
                     return;
                 } else {
