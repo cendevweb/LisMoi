@@ -9,9 +9,15 @@ import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.lismoi.lis_moiapprendrelire.R;
 import com.lismoi.lis_moiapprendrelire.TinyDB;
 import com.lismoi.lis_moiapprendrelire.model.Category;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ResultActivity extends AppCompatActivity {
 
@@ -23,6 +29,7 @@ public class ResultActivity extends AppCompatActivity {
     private RelativeLayout mResultLayout;
     private TinyDB mTinydb;
     private Category mCategory;
+    private ArrayList<HashMap<String, Integer>> mHashmapCategories = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +49,7 @@ public class ResultActivity extends AppCompatActivity {
         Intent mIntent = getIntent();
         double nbItem = mIntent.getDoubleExtra("nbItem", 0.0);
         double nbSuccess = mIntent.getDoubleExtra("nbSuccess", 0.0);
-        if (getIntent().getExtras() != null){
+        if (getIntent().getExtras() != null) {
             mCategory = (Category) mIntent.getExtras().get("category");
         }
         int mResultItem = (int) nbItem;
@@ -78,14 +85,38 @@ public class ResultActivity extends AppCompatActivity {
             mRatingBar.setRating(0);
         }
 
-        mCategory.setValidated(true);
-        mCategory.setStars(mRatingBar.getNumStars());
+
+        String hashMapString = tinyDB.getString("categoryHashMap");
+        Gson gson = new Gson();
+        java.lang.reflect.Type type = new TypeToken<ArrayList<HashMap<String, Integer>>>() {
+        }.getType();
+        ArrayList<HashMap<String, Integer>> hashMapObject = gson.fromJson(hashMapString, type);
+
+        for (HashMap<String, Integer> hashMap : hashMapObject) {
+            for (Map.Entry<String, Integer> entry : hashMap.entrySet()) {
+                String key = entry.getKey();
+                Integer value = entry.getValue();
+
+                if (key.equals(mCategory.getCategoryName())) {
+                    value = mRatingBar.getNumStars();
+                }
+
+                entry.setValue(value);
+
+                HashMap<String, Integer> hashMapFinal = new HashMap<>();
+                hashMapFinal.put(key, value);
+                mHashmapCategories.add(hashMapFinal);
+            }
+        }
+
+        saveHashMap();
 
         mRatingBar.postDelayed(new Runnable() {
             public void run() {
                 mRatingBar.setVisibility(View.VISIBLE);
             }
         }, 200);
+
         mTinydb = new TinyDB(ResultActivity.this);
         mResultLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,5 +126,13 @@ public class ResultActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    private void saveHashMap() {
+        Gson gson = new Gson();
+        String hashMapString = gson.toJson(mHashmapCategories);
+
+        TinyDB tinyDB = new TinyDB(ResultActivity.this);
+        tinyDB.putString("categoryHashMap", hashMapString);
     }
 }

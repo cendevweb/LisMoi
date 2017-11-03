@@ -150,12 +150,11 @@ public class WordsActivity extends AppCompatActivity implements RecognitionListe
 
     @Override
     public void onReadyForSpeech(Bundle bundle) {
-        mRippleBackground.startRippleAnimation();
     }
 
     @Override
     public void onBeginningOfSpeech() {
-//        mRippleBackground.startRippleAnimation();
+        mRippleBackground.startRippleAnimation();
     }
 
     @Override

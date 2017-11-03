@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 
+import com.google.gson.Gson;
 import com.lismoi.lis_moiapprendrelire.R;
 import com.lismoi.lis_moiapprendrelire.RequestService;
 import com.lismoi.lis_moiapprendrelire.TinyDB;
@@ -19,6 +20,7 @@ import com.lismoi.lis_moiapprendrelire.model.Word;
 import com.lismoi.lis_moiapprendrelire.model.WordsList;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import retrofit.Callback;
@@ -30,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements CategoryAdapter.C
 
     private RecyclerView mActivityMainRecycler;
     private CategoryAdapter mAdapter;
+    private ArrayList<HashMap<String, Integer>> mHashMaps = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,9 +96,19 @@ public class MainActivity extends AppCompatActivity implements CategoryAdapter.C
                         }
                     }
 
+                    HashMap<String, Integer> categoryHash = new HashMap<>();
+                    categoryHash.put(categoryStringList.get(i), 0);
+                    mHashMaps.add(categoryHash);
+
                     category.setWordsList(wordsList);
                     category.setCategoryName(categoryStringList.get(i));
                     categoryList.add(category);
+                }
+
+                TinyDB tinyDB = new TinyDB(MainActivity.this);
+                if (!tinyDB.getBoolean("notFirstLaunch")) {
+                    saveHashMap();
+                    tinyDB.putBoolean("notFirstLaunch", true);
                 }
 
                 mAdapter = new CategoryAdapter(categoryList, MainActivity.this, MainActivity.this);
@@ -112,6 +125,14 @@ public class MainActivity extends AppCompatActivity implements CategoryAdapter.C
 
             }
         });
+    }
+
+    private void saveHashMap() {
+        Gson gson = new Gson();
+        String hashMapString = gson.toJson(mHashMaps);
+
+        TinyDB tinyDB = new TinyDB(MainActivity.this);
+        tinyDB.putString("categoryHashMap", hashMapString);
     }
 
     @Override

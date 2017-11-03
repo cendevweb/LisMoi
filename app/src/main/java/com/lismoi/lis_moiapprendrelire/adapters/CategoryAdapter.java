@@ -9,14 +9,18 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.lismoi.lis_moiapprendrelire.R;
 import com.lismoi.lis_moiapprendrelire.TinyDB;
 import com.lismoi.lis_moiapprendrelire.model.Category;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Phil on 12/10/2017.
@@ -57,9 +61,24 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
         Picasso.with(mContext).load(category.getImageUrl()).into(holder.mCategoryItemImage);
 
-        if (category.isValidated()){
-            Toast.makeText(mContext, category.getCategoryName() + category.getStars(), Toast.LENGTH_SHORT).show();
+        String hashMapString = tinyDB.getString("categoryHashMap");
+        Gson gson = new Gson();
+        java.lang.reflect.Type type = new TypeToken<ArrayList<HashMap<String, Integer>>>() {
+        }.getType();
+        ArrayList<HashMap<String, Integer>> hashMapObject = gson.fromJson(hashMapString, type);
+
+        for (HashMap<String, Integer> hashMap : hashMapObject) {
+            for (Map.Entry<String, Integer> entry : hashMap.entrySet()) {
+                String key = entry.getKey();
+                Integer value = entry.getValue();
+
+                if (key.equals(category.getCategoryName()) && value != 0) {
+                    holder.mCategoryStars.setText(value.toString());
+                    holder.mCategoryStarsLayout.setVisibility(View.VISIBLE);
+                }
+            }
         }
+
         if (position > lockedLevel) {
             holder.mCategoryLockedLayout.setVisibility(View.VISIBLE);
         } else {
@@ -84,9 +103,11 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
         private TextView mCategoryItemName;
         private TextView mCategoryItemWordsNumber;
+        private TextView mCategoryStars;
         private ImageView mCategoryItemImage;
         private LinearLayout mCategoryItemLayout;
         private LinearLayout mCategoryLockedLayout;
+        private LinearLayout mCategoryStarsLayout;
 
         private CategoryViewHolder(View v) {
             super(v);
@@ -96,6 +117,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
             mCategoryItemWordsNumber = v.findViewById(R.id.category_item_words_number);
             mCategoryItemLayout = v.findViewById(R.id.category_item_layout);
             mCategoryLockedLayout = v.findViewById(R.id.category_item_locked_layout);
+            mCategoryStars = v.findViewById(R.id.category_item_words_stars);
+            mCategoryStarsLayout = v.findViewById(R.id.category_item_stars_layout);
         }
     }
 

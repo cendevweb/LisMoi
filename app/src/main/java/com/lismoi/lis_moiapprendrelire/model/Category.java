@@ -13,26 +13,7 @@ public class Category implements Serializable {
     private String categoryName;
     private int wordsInCategoryNumber;
     private WordsList mWordsList;
-    private boolean isValidated = false;
-
-    public boolean isValidated() {
-        return isValidated;
-    }
-
-    public void setValidated(boolean validated) {
-        isValidated = validated;
-    }
-
-    public int getStars() {
-        return stars;
-    }
-
-    public void setStars(int stars) {
-        this.stars = stars;
-    }
-
-    private int stars;
-
+    
     public ArrayList<String> getCategoryWords() {
         ArrayList<String> wordsList = new ArrayList<>();
 

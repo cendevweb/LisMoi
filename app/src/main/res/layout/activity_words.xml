@@ -38,7 +38,8 @@
                 android:layout_marginBottom="24dp"
                 android:background="?selectableItemBackgroundBorderless"
                 android:padding="24dp"
-                android:src="@drawable/ic_microphone" />
+                android:src="@drawable/ic_microphone"
+                android:tint="@android:color/white" />
 
         </com.lismoi.lis_moiapprendrelire.RippleBackground>
 
