@@ -26,9 +26,9 @@
             android:layout_height="match_parent"
             app:rb_color="@color/purpleLight"
             app:rb_duration="2000"
-            app:rb_radius="32dp"
-            app:rb_rippleAmount="6"
-            app:rb_scale="6">
+            app:rb_radius="20dp"
+            app:rb_rippleAmount="4"
+            app:rb_scale="3">
 
             <ImageView
                 android:id="@+id/activity_word_microphone_button"
@@ -37,6 +37,7 @@
                 android:layout_centerInParent="true"
                 android:layout_marginBottom="24dp"
                 android:background="?selectableItemBackgroundBorderless"
+                android:padding="24dp"
                 android:src="@drawable/ic_microphone" />
 
         </com.lismoi.lis_moiapprendrelire.RippleBackground>

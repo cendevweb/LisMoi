@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_dictionary"
-        android:icon="@drawable/ic_text_format"
+        android:icon="@drawable/ic_dictionary"
         android:title="Acces au dictionnaire"
         app:showAsAction="always" />
 </menu>

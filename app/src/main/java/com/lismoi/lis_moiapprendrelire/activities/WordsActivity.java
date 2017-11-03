@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
-import android.speech.tts.TextToSpeech;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -15,7 +14,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.lismoi.lis_moiapprendrelire.R;
 import com.lismoi.lis_moiapprendrelire.RippleBackground;
@@ -157,7 +155,7 @@ public class WordsActivity extends AppCompatActivity implements RecognitionListe
 
     @Override
     public void onBeginningOfSpeech() {
-        Toast.makeText(this, "onBeginningOfSpeech", Toast.LENGTH_SHORT).show();
+//        mRippleBackground.startRippleAnimation();
     }
 
     @Override
@@ -177,6 +175,8 @@ public class WordsActivity extends AppCompatActivity implements RecognitionListe
 
     @Override
     public void onError(int errorCode) {
+        mSwipeFlingAdapterView.setWrong();
+
         switch (errorCode) {
             case SpeechRecognizer.ERROR_AUDIO:
                 Log.d("DEBUG error", String.valueOf(SpeechRecognizer.ERROR_AUDIO));
