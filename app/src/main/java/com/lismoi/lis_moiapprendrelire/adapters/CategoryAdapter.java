@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.lismoi.lis_moiapprendrelire.R;
 import com.lismoi.lis_moiapprendrelire.TinyDB;
@@ -56,6 +57,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
         Picasso.with(mContext).load(category.getImageUrl()).into(holder.mCategoryItemImage);
 
+        if (category.isValidated()){
+            Toast.makeText(mContext, category.getCategoryName() + category.getStars(), Toast.LENGTH_SHORT).show();
+        }
         if (position > lockedLevel) {
             holder.mCategoryLockedLayout.setVisibility(View.VISIBLE);
         } else {

@@ -232,7 +232,7 @@ public class WordsActivity extends AppCompatActivity implements RecognitionListe
                         Intent mIntent = new Intent(WordsActivity.this, ResultActivity.class);
                         mIntent.putExtra("nbItem", nbItem);
                         mIntent.putExtra("nbSuccess", nbSuccess);
-                        mIntent.putExtra("categoryName", mCategory.getCategoryName());
+                        mIntent.putExtra("category", mCategory);
                         startActivity(mIntent);
                         finish();
                     }

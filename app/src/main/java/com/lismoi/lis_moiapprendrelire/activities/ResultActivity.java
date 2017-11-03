@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.lismoi.lis_moiapprendrelire.R;
 import com.lismoi.lis_moiapprendrelire.TinyDB;
+import com.lismoi.lis_moiapprendrelire.model.Category;
 
 public class ResultActivity extends AppCompatActivity {
 
@@ -20,6 +21,8 @@ public class ResultActivity extends AppCompatActivity {
     private RatingBar mRatingBar;
     private double ratingRatio;
     private RelativeLayout mResultLayout;
+    private TinyDB mTinydb;
+    private Category mCategory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,11 +42,13 @@ public class ResultActivity extends AppCompatActivity {
         Intent mIntent = getIntent();
         double nbItem = mIntent.getDoubleExtra("nbItem", 0.0);
         double nbSuccess = mIntent.getDoubleExtra("nbSuccess", 0.0);
-        String categoryName = mIntent.getStringExtra("categoryName");
+        if (getIntent().getExtras() != null){
+            mCategory = (Category) mIntent.getExtras().get("category");
+        }
         int mResultItem = (int) nbItem;
         int mResultSuccess = (int) nbSuccess;
 
-        mCategoryName.setText(categoryName);
+        mCategoryName.setText(mCategory.getCategoryName());
         mRatingBar.setVisibility(View.INVISIBLE);
 
         mScoreTxt.setText(mResultSuccess + " / " + mResultItem);
@@ -51,6 +56,7 @@ public class ResultActivity extends AppCompatActivity {
         mEndLevel.setTypeface(font);
         mScoreTxt.setTypeface(font);
         mCategoryName.setTypeface(font);
+
         ratingRatio = nbSuccess / nbItem;
         if (ratingRatio > 0.8) {
             mRatingBar.setNumStars(5);
@@ -72,12 +78,15 @@ public class ResultActivity extends AppCompatActivity {
             mRatingBar.setRating(0);
         }
 
+        mCategory.setValidated(true);
+        mCategory.setStars(mRatingBar.getNumStars());
+
         mRatingBar.postDelayed(new Runnable() {
             public void run() {
                 mRatingBar.setVisibility(View.VISIBLE);
             }
         }, 200);
-
+        mTinydb = new TinyDB(ResultActivity.this);
         mResultLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
