@@ -43,13 +43,27 @@
         </com.lismoi.lis_moiapprendrelire.RippleBackground>
 
 
-        <Button
+        <LinearLayout
             android:id="@+id/activity_word_add_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableEnd="@drawable/ic_text_format_black"
-            android:drawableStart="@drawable/ic_add"
-            android:paddingHorizontal="20dp" />
+            android:orientation="horizontal"
+            android:background="@drawable/button_effect"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/add_to_dictionnary"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"/>
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginLeft="16dp"
+                android:src="@drawable/ic_dictionary" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

@@ -12,8 +12,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.lismoi.lis_moiapprendrelire.R;
 import com.lismoi.lis_moiapprendrelire.RippleBackground;
@@ -34,7 +34,7 @@ public class WordsActivity extends AppCompatActivity implements RecognitionListe
     private Intent mRecognizerIntent;
     private Category mCategory;
     private SwingFlingAdapterView mSwipeFlingAdapterView;
-    private Button mAddButton;
+    private LinearLayout mAddButton;
     private List<String> dicoWordList = new ArrayList();
     private List<String> dicoImageList = new ArrayList();
     private ImageView mMicrophoneButton;
@@ -58,7 +58,7 @@ public class WordsActivity extends AppCompatActivity implements RecognitionListe
         mTinydb = new TinyDB(WordsActivity.this);
         mMicrophoneButton = (ImageView) findViewById(R.id.activity_word_microphone_button);
         mSwipeFlingAdapterView = (SwingFlingAdapterView) findViewById(R.id.activity_words_SwipeFlingAdapterView);
-        mAddButton = (Button) findViewById(R.id.activity_word_add_button);
+        mAddButton = (LinearLayout) findViewById(R.id.activity_word_add_button);
         mRippleBackground = (RippleBackground) findViewById(R.id.activity_words_ripple_background);
 
         mAddButton.setOnClickListener(mAddButtonListener);

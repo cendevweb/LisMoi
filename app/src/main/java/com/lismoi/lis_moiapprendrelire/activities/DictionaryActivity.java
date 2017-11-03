@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 
 import com.lismoi.lis_moiapprendrelire.R;
 import com.lismoi.lis_moiapprendrelire.TinyDB;
@@ -22,7 +24,6 @@ public class DictionaryActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(R.string.my_dictionnary);
 
         mActivityDictionaryRecycler = (RecyclerView) findViewById(R.id.activity_dictionary_recycler);
-
         getWords();
     }
 
@@ -34,5 +35,8 @@ public class DictionaryActivity extends AppCompatActivity {
         DictionaryAdapter mAdapter = new DictionaryAdapter(wordsList, imageList, DictionaryActivity.this);
         mActivityDictionaryRecycler.setAdapter(mAdapter);
         mActivityDictionaryRecycler.setLayoutManager(new LinearLayoutManager(DictionaryActivity.this));
+        int resId = R.anim.layout_animation_slide_in;
+        LayoutAnimationController animation = AnimationUtils.loadLayoutAnimation(DictionaryActivity.this, resId);
+        mActivityDictionaryRecycler.setLayoutAnimation(animation);
     }
 }
