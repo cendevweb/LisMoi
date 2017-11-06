@@ -2,6 +2,7 @@ package com.lismoi.lis_moiapprendrelire.adapters;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -81,6 +82,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
         if (position > lockedLevel) {
             holder.mCategoryLockedLayout.setVisibility(View.VISIBLE);
+            holder.mCategoryRootLayout.setBackground(ContextCompat.getDrawable(mContext, R.drawable.item_category_item_locked));
         } else {
             holder.mCategoryItemLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -108,6 +110,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         private LinearLayout mCategoryItemLayout;
         private LinearLayout mCategoryLockedLayout;
         private LinearLayout mCategoryStarsLayout;
+        private LinearLayout mCategoryRootLayout;
 
         private CategoryViewHolder(View v) {
             super(v);
@@ -119,6 +122,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
             mCategoryLockedLayout = v.findViewById(R.id.category_item_locked_layout);
             mCategoryStars = v.findViewById(R.id.category_item_words_stars);
             mCategoryStarsLayout = v.findViewById(R.id.category_item_stars_layout);
+            mCategoryRootLayout = v.findViewById(R.id.category_item_root_layout);
         }
     }
 

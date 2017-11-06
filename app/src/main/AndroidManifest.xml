@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -24,7 +25,7 @@
         <activity
             android:name=".activities.DictionaryActivity"
             android:parentActivityName=".activities.MainActivity" />
-        <activity android:name=".activities.ResultActivity"></activity>
+        <activity android:name=".activities.ResultActivity" />
     </application>
 
 </manifest>

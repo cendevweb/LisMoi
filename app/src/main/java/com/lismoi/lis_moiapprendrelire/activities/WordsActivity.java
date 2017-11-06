@@ -1,9 +1,11 @@
 package com.lismoi.lis_moiapprendrelire.activities;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
@@ -175,6 +177,8 @@ public class WordsActivity extends AppCompatActivity implements RecognitionListe
     @Override
     public void onError(int errorCode) {
         mSwipeFlingAdapterView.setWrong();
+        Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        v.vibrate(200);
 
         switch (errorCode) {
             case SpeechRecognizer.ERROR_AUDIO:
@@ -217,7 +221,7 @@ public class WordsActivity extends AppCompatActivity implements RecognitionListe
 
         if (matches != null) {
             int wordsNumber = matches.size();
-            int wordsMissed = 0;
+            int wordsMissedNumber = 0;
 
             for (int i = 0; i < matches.size(); i++) {
                 String match = matches.get(i);
@@ -237,13 +241,15 @@ public class WordsActivity extends AppCompatActivity implements RecognitionListe
                     }
                     return;
                 } else {
-                    wordsMissed++;
+                    wordsMissedNumber++;
                 }
             }
 
-            if (wordsMissed == wordsNumber) {
+            if (wordsMissedNumber == wordsNumber) {
                 mSwipeFlingAdapterView.setWrong();
                 mTryNumber++;
+                Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                v.vibrate(200);
             }
 
             if (mTryNumber == 3) {

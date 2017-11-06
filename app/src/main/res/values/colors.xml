@@ -6,7 +6,7 @@
 
     <color name="purpleDarkDark">#4d3463</color>
     <color name="purpleDark">#6B448D</color>
-    <color name="purpleDarkTransparent">#e66b448d</color>
+    <color name="purpleDarkTransparent">#e64d3463</color>
     <color name="purpleLight">#8458AB</color>
 
     <color name="errorColor">#e12d35</color>
