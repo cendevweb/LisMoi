@@ -116,7 +116,6 @@ public class WordsActivity extends AppCompatActivity implements RecognitionListe
             }
         });
 
-        // TODO : call on mic icon click
         checkAudioPermissions();
 
         mSpeechRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
@@ -216,6 +215,7 @@ public class WordsActivity extends AppCompatActivity implements RecognitionListe
                 Log.d("DEBUG error", String.valueOf(SpeechRecognizer.ERROR_CLIENT));
                 break;
             case SpeechRecognizer.ERROR_INSUFFICIENT_PERMISSIONS:
+                checkAudioPermissions();
                 Log.d("DEBUG error", String.valueOf(SpeechRecognizer.ERROR_INSUFFICIENT_PERMISSIONS));
                 break;
             case SpeechRecognizer.ERROR_NETWORK:
@@ -272,13 +272,7 @@ public class WordsActivity extends AppCompatActivity implements RecognitionListe
                         wordMissed.put(word.getWord(), Boolean.TRUE);
                         mWordsResult.add(wordMissed);
                     } else {
-                        Intent mIntent = new Intent(WordsActivity.this, ResultActivity.class);
-                        mIntent.putExtra("nbItem", nbItem);
-                        mIntent.putExtra("nbSuccess", nbSuccess);
-                        mIntent.putExtra("category", mCategory);
-                        mIntent.putExtra("wordsResult", mWordsResult);
-                        startActivity(mIntent);
-                        finish();
+                        startResultActivity();
                     }
                     return;
                 } else {
@@ -299,8 +293,22 @@ public class WordsActivity extends AppCompatActivity implements RecognitionListe
                 HashMap<String, Boolean> wordMissed = new HashMap<>();
                 wordMissed.put(word.getWord(), Boolean.FALSE);
                 mWordsResult.add(wordMissed);
+
+                if (mSwipeCardAdapter.getCount() <= 1) {
+                    startResultActivity();
+                }
             }
         }
+    }
+
+    private void startResultActivity() {
+        Intent mIntent = new Intent(WordsActivity.this, ResultActivity.class);
+        mIntent.putExtra("nbItem", nbItem);
+        mIntent.putExtra("nbSuccess", nbSuccess);
+        mIntent.putExtra("category", mCategory);
+        mIntent.putExtra("wordsResult", mWordsResult);
+        startActivity(mIntent);
+        finish();
     }
 
     @Override
