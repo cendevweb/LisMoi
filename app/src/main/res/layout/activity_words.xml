@@ -61,6 +61,7 @@
                 android:textSize="16sp" />
 
             <ImageView
+                android:id="@+id/activity_word_dictionary_icon"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_marginStart="16dp"

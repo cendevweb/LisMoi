@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/result_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/purpleDark"
-    android:gravity="center"
-    android:orientation="vertical"
-    tools:context="com.lismoi.lis_moiapprendrelire.activities.ResultActivity">
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
         android:orientation="vertical">
 
         <TextView
@@ -59,5 +57,15 @@
             android:numStars="4"
             android:rating="2"
             android:theme="@style/RatingBar" />
+
     </LinearLayout>
-</RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/activity_result_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="36dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="24dp" />
+
+</LinearLayout>

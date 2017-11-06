@@ -2,8 +2,9 @@
     <string name="app_name">Lis-moi : Imagier virtuel</string>
     <string name="words_number">Contient %d mots</string>
     <string name="add_to_dictionnary">Ajouter au dictionnaire</string>
-    <string name="added_to_dictionnary">Ajouté au dictionnaire</string>
+    <string name="added_to_dictionnary">Dans le dictionnaire</string>
     <string name="level_locked">Niveau bloqué</string>
     <string name="end_of_level">Fin du niveau</string>
     <string name="my_dictionnary">Mon Dictionnaire</string>
+    <string name="valid_words_out_of_words">%d / %d</string>
 </resources>

@@ -4,15 +4,18 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.lismoi.lis_moiapprendrelire.R;
 import com.lismoi.lis_moiapprendrelire.TinyDB;
+import com.lismoi.lis_moiapprendrelire.adapters.WordsResultAdapter;
 import com.lismoi.lis_moiapprendrelire.model.Category;
 
 import java.util.ArrayList;
@@ -25,11 +28,15 @@ public class ResultActivity extends AppCompatActivity {
     private TextView mScoreTxt;
     private TextView mCategoryName;
     private RatingBar mRatingBar;
-    private double ratingRatio;
-    private RelativeLayout mResultLayout;
+    private LinearLayout mResultLayout;
+    private RecyclerView mRecyclerView;
+
     private TinyDB mTinydb;
+    private double ratingRatio;
     private Category mCategory;
     private ArrayList<HashMap<String, Integer>> mHashmapCategories = new ArrayList<>();
+    private ArrayList<HashMap<String, Boolean>> mWordsResult;
+    private WordsResultAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,16 +51,22 @@ public class ResultActivity extends AppCompatActivity {
         mScoreTxt = (TextView) findViewById(R.id.result_score);
         mCategoryName = (TextView) findViewById(R.id.result_category_name);
         mRatingBar = (RatingBar) findViewById(R.id.result_rating_bar);
-        mResultLayout = (RelativeLayout) findViewById(R.id.result_layout);
+        mResultLayout = (LinearLayout) findViewById(R.id.result_layout);
+        mRecyclerView = (RecyclerView) findViewById(R.id.activity_result_recyclerview);
 
         Intent mIntent = getIntent();
         double nbItem = mIntent.getDoubleExtra("nbItem", 0.0);
         double nbSuccess = mIntent.getDoubleExtra("nbSuccess", 0.0);
         if (getIntent().getExtras() != null) {
-            mCategory = (Category) mIntent.getExtras().get("category");
+            mCategory = (Category) getIntent().getExtras().get("category");
+            mWordsResult = (ArrayList<HashMap<String, Boolean>>) getIntent().getExtras().get("wordsResult");
         }
         int mResultItem = (int) nbItem;
         int mResultSuccess = (int) nbSuccess;
+
+        mAdapter = new WordsResultAdapter(mWordsResult, this);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.setAdapter(mAdapter);
 
         mCategoryName.setText(mCategory.getCategoryName());
         mRatingBar.setVisibility(View.INVISIBLE);
@@ -84,7 +97,6 @@ public class ResultActivity extends AppCompatActivity {
             mRatingBar.setNumStars(0);
             mRatingBar.setRating(0);
         }
-
 
         String hashMapString = tinyDB.getString("categoryHashMap");
         Gson gson = new Gson();

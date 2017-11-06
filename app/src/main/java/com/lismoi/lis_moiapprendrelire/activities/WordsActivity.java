@@ -29,6 +29,7 @@ import com.lismoi.lis_moiapprendrelire.model.Word;
 import com.lismoi.lis_moiapprendrelire.model.WordsList;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -38,6 +39,7 @@ public class WordsActivity extends AppCompatActivity implements RecognitionListe
     private List<String> mDicoWordList = new ArrayList();
     private List<String> mDicoImageList = new ArrayList();
     private ImageView mMicrophoneButton;
+    private ImageView mDictionaryIcon;
     private TextView mDictionaryText;
     private RippleBackground mRippleBackground;
 
@@ -51,6 +53,7 @@ public class WordsActivity extends AppCompatActivity implements RecognitionListe
     private int mTryNumber = 0;
     private double nbItem;
     private double nbSuccess = 0;
+    private ArrayList<HashMap<String, Boolean>> mWordsResult = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +70,7 @@ public class WordsActivity extends AppCompatActivity implements RecognitionListe
         mAddButton = (LinearLayout) findViewById(R.id.activity_word_add_button);
         mRippleBackground = (RippleBackground) findViewById(R.id.activity_words_ripple_background);
         mDictionaryText = (TextView) findViewById(R.id.activity_word_dictionary_text);
+        mDictionaryIcon = (ImageView) findViewById(R.id.activity_word_dictionary_icon);
 
         mAddButton.setOnClickListener(mAddButtonListener);
 
@@ -150,8 +154,10 @@ public class WordsActivity extends AppCompatActivity implements RecognitionListe
                 mDicoWordList.add(word.getWord());
                 mDicoImageList.add(word.getImageUrl());
                 mDictionaryText.setText(getString(R.string.added_to_dictionnary));
+                mDictionaryIcon.setImageDrawable(ContextCompat.getDrawable(WordsActivity.this, R.drawable.ic_check));
             } else {
                 mDictionaryText.setText(getString(R.string.add_to_dictionnary));
+                mDictionaryIcon.setImageDrawable(ContextCompat.getDrawable(WordsActivity.this, R.drawable.ic_dictionary));
             }
 
             mTinydb.putListString("wordsList", (ArrayList<String>) mDicoWordList);
@@ -167,6 +173,9 @@ public class WordsActivity extends AppCompatActivity implements RecognitionListe
 
         mDictionaryText.setText(mDicoWordList.contains(word.getWord()) ?
                 getString(R.string.added_to_dictionnary) : getString(R.string.add_to_dictionnary));
+
+        mDictionaryIcon.setImageDrawable(ContextCompat.getDrawable(this, mDicoWordList.contains(word.getWord()) ?
+                R.drawable.ic_check : R.drawable.ic_dictionary));
     }
 
     @Override
@@ -238,13 +247,15 @@ public class WordsActivity extends AppCompatActivity implements RecognitionListe
         ArrayList<String> matches = bundle.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
         Log.d("DEBUG", String.valueOf(matches));
 
+        Word word = null;
+
         if (matches != null) {
             int wordsNumber = matches.size();
             int wordsMissedNumber = 0;
 
             for (int i = 0; i < matches.size(); i++) {
                 String match = matches.get(i);
-                Word word = (Word) mSwipeCardAdapter.getItem(0);
+                word = (Word) mSwipeCardAdapter.getItem(0);
                 if (match.toLowerCase().equals(word.getWord().toLowerCase())) {
                     nbSuccess++;
 
@@ -257,11 +268,15 @@ public class WordsActivity extends AppCompatActivity implements RecognitionListe
                                 checkFirstWordInDictionary();
                             }
                         }, 500);
+                        HashMap<String, Boolean> wordMissed = new HashMap<>();
+                        wordMissed.put(word.getWord(), Boolean.TRUE);
+                        mWordsResult.add(wordMissed);
                     } else {
                         Intent mIntent = new Intent(WordsActivity.this, ResultActivity.class);
                         mIntent.putExtra("nbItem", nbItem);
                         mIntent.putExtra("nbSuccess", nbSuccess);
                         mIntent.putExtra("category", mCategory);
+                        mIntent.putExtra("wordsResult", mWordsResult);
                         startActivity(mIntent);
                         finish();
                     }
@@ -281,6 +296,9 @@ public class WordsActivity extends AppCompatActivity implements RecognitionListe
             if (mTryNumber == 3) {
                 mSwipeFlingAdapterView.getTopCardListener().selectRight();
                 mTryNumber = 0;
+                HashMap<String, Boolean> wordMissed = new HashMap<>();
+                wordMissed.put(word.getWord(), Boolean.FALSE);
+                mWordsResult.add(wordMissed);
             }
         }
     }
