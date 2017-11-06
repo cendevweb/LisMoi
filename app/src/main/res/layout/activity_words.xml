@@ -48,20 +48,22 @@
             android:id="@+id/activity_word_add_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:background="@drawable/button_effect"
+            android:orientation="horizontal"
             android:padding="16dp">
 
             <TextView
+                android:id="@+id/activity_word_dictionary_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/add_to_dictionnary"
                 android:textColor="@android:color/white"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
+
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
                 android:src="@drawable/ic_dictionary" />
 
         </LinearLayout>

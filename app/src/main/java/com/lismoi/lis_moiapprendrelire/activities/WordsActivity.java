@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Vibrator;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
@@ -16,6 +17,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.lismoi.lis_moiapprendrelire.R;
 import com.lismoi.lis_moiapprendrelire.RippleBackground;
@@ -32,21 +34,23 @@ import java.util.Locale;
 
 public class WordsActivity extends AppCompatActivity implements RecognitionListener {
 
+    private LinearLayout mAddButton;
+    private List<String> mDicoWordList = new ArrayList();
+    private List<String> mDicoImageList = new ArrayList();
+    private ImageView mMicrophoneButton;
+    private TextView mDictionaryText;
+    private RippleBackground mRippleBackground;
+
+    private SwipeCardAdapter mSwipeCardAdapter;
+    private SwingFlingAdapterView mSwipeFlingAdapterView;
+    private WordsList mWordsList;
+    private TinyDB mTinydb;
     private SpeechRecognizer mSpeechRecognizer;
     private Intent mRecognizerIntent;
     private Category mCategory;
-    private SwingFlingAdapterView mSwipeFlingAdapterView;
-    private LinearLayout mAddButton;
-    private List<String> dicoWordList = new ArrayList();
-    private List<String> dicoImageList = new ArrayList();
-    private ImageView mMicrophoneButton;
-    private SwipeCardAdapter mSwipeCardAdapter;
-    private WordsList mWordsList;
-    private TinyDB mTinydb;
     private int mTryNumber = 0;
-    public double nbItem;
-    public double nbSuccess = 0;
-    private RippleBackground mRippleBackground;
+    private double nbItem;
+    private double nbSuccess = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +66,7 @@ public class WordsActivity extends AppCompatActivity implements RecognitionListe
         mSwipeFlingAdapterView = (SwingFlingAdapterView) findViewById(R.id.activity_words_SwipeFlingAdapterView);
         mAddButton = (LinearLayout) findViewById(R.id.activity_word_add_button);
         mRippleBackground = (RippleBackground) findViewById(R.id.activity_words_ripple_background);
+        mDictionaryText = (TextView) findViewById(R.id.activity_word_dictionary_text);
 
         mAddButton.setOnClickListener(mAddButtonListener);
 
@@ -70,8 +75,9 @@ public class WordsActivity extends AppCompatActivity implements RecognitionListe
         mWordsList = mCategory.getWordsList();
 
         mSwipeCardAdapter = new SwipeCardAdapter(this, getLayoutInflater(), mWordsList);
-
         mSwipeFlingAdapterView.setAdapter(mSwipeCardAdapter);
+
+        checkFirstWordInDictionary();
 
         mSwipeFlingAdapterView.setFlingListener(new SwingFlingAdapterView.onFlingListener() {
             @Override
@@ -137,18 +143,31 @@ public class WordsActivity extends AppCompatActivity implements RecognitionListe
         @Override
         public void onClick(View view) {
             Word word = (Word) mSwipeCardAdapter.getItem(0);
-            dicoWordList = mTinydb.getListString("wordsList");
-            dicoImageList = mTinydb.getListString("imageList");
+            mDicoWordList = mTinydb.getListString("wordsList");
+            mDicoImageList = mTinydb.getListString("imageList");
 
-            if (word != null && !dicoWordList.contains(word.getWord())) {
-                dicoWordList.add(word.getWord());
-                dicoImageList.add(word.getImageUrl());
+            if (word != null && !mDicoWordList.contains(word.getWord())) {
+                mDicoWordList.add(word.getWord());
+                mDicoImageList.add(word.getImageUrl());
+                mDictionaryText.setText(getString(R.string.added_to_dictionnary));
+            } else {
+                mDictionaryText.setText(getString(R.string.add_to_dictionnary));
             }
-            mTinydb.putListString("wordsList", (ArrayList<String>) dicoWordList);
-            mTinydb.putListString("imageList", (ArrayList<String>) dicoImageList);
+
+            mTinydb.putListString("wordsList", (ArrayList<String>) mDicoWordList);
+            mTinydb.putListString("imageList", (ArrayList<String>) mDicoImageList);
 
         }
     };
+
+    private void checkFirstWordInDictionary() {
+        Word word = (Word) mSwipeCardAdapter.getItem(0);
+        mDicoWordList = mTinydb.getListString("wordsList");
+        mDicoImageList = mTinydb.getListString("imageList");
+
+        mDictionaryText.setText(mDicoWordList.contains(word.getWord()) ?
+                getString(R.string.added_to_dictionnary) : getString(R.string.add_to_dictionnary));
+    }
 
     @Override
     public void onReadyForSpeech(Bundle bundle) {
@@ -178,7 +197,7 @@ public class WordsActivity extends AppCompatActivity implements RecognitionListe
     public void onError(int errorCode) {
         mSwipeFlingAdapterView.setWrong();
         Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-        v.vibrate(200);
+        v.vibrate(500);
 
         switch (errorCode) {
             case SpeechRecognizer.ERROR_AUDIO:
@@ -231,6 +250,13 @@ public class WordsActivity extends AppCompatActivity implements RecognitionListe
 
                     if (mSwipeCardAdapter.getCount() > 1) {
                         mSwipeFlingAdapterView.getTopCardListener().selectRight();
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                checkFirstWordInDictionary();
+                            }
+                        }, 500);
                     } else {
                         Intent mIntent = new Intent(WordsActivity.this, ResultActivity.class);
                         mIntent.putExtra("nbItem", nbItem);
@@ -249,7 +275,7 @@ public class WordsActivity extends AppCompatActivity implements RecognitionListe
                 mSwipeFlingAdapterView.setWrong();
                 mTryNumber++;
                 Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                v.vibrate(200);
+                v.vibrate(500);
             }
 
             if (mTryNumber == 3) {
