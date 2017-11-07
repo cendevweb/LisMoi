@@ -1,14 +1,20 @@
 package com.lismoi.lis_moiapprendrelire.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.lismoi.lis_moiapprendrelire.R;
@@ -33,6 +39,8 @@ public class MainActivity extends AppCompatActivity implements CategoryAdapter.C
     private RecyclerView mActivityMainRecycler;
     private CategoryAdapter mAdapter;
     private ArrayList<HashMap<String, Integer>> mHashMaps = new ArrayList<>();
+    private TextView mActivityMainNoInternet;
+    private LinearLayout mActivityMainProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +53,15 @@ public class MainActivity extends AppCompatActivity implements CategoryAdapter.C
         }
 
         mActivityMainRecycler = (RecyclerView) findViewById(R.id.activity_main_recycler);
-        getWords();
+        mActivityMainNoInternet = (TextView) findViewById(R.id.activity_main_empty_case);
+        mActivityMainProgressBar = (LinearLayout) findViewById(R.id.activity_main_progress_bar_layout);
+
+        if (isNetworkAvailable()) {
+            getWords();
+        } else {
+            mActivityMainRecycler.setVisibility(View.GONE);
+            mActivityMainNoInternet.setVisibility(View.VISIBLE);
+        }
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -64,11 +80,20 @@ public class MainActivity extends AppCompatActivity implements CategoryAdapter.C
         }
     }
 
-    public void getWords() {
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    private void getWords() {
         RequestService requestService = new RestAdapter.Builder()
                 .setEndpoint(RequestService.ENDPOINT)
                 .build()
                 .create(RequestService.class);
+
+        mActivityMainRecycler.setVisibility(View.GONE);
+        mActivityMainProgressBar.setVisibility(View.VISIBLE);
 
         requestService.getAllWords(new Callback<WordsList>() {
             @Override
@@ -118,6 +143,9 @@ public class MainActivity extends AppCompatActivity implements CategoryAdapter.C
                 int resId = R.anim.layout_animation_slide_in;
                 LayoutAnimationController animation = AnimationUtils.loadLayoutAnimation(MainActivity.this, resId);
                 mActivityMainRecycler.setLayoutAnimation(animation);
+
+                mActivityMainRecycler.setVisibility(View.VISIBLE);
+                mActivityMainProgressBar.setVisibility(View.GONE);
             }
 
             @Override

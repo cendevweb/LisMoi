@@ -7,4 +7,6 @@
     <string name="end_of_level">Fin du niveau</string>
     <string name="my_dictionnary">Mon Dictionnaire</string>
     <string name="valid_words_out_of_words">%d / %d</string>
+    <string name="dictionary_empty_case">Pas de mots dans le dictionnaire</string>
+    <string name="internet_unavailable">Aucune connexion internet trouvée</string>
 </resources>

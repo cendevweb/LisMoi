@@ -4,8 +4,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
+import android.widget.TextView;
 
 import com.lismoi.lis_moiapprendrelire.R;
 import com.lismoi.lis_moiapprendrelire.TinyDB;
@@ -15,6 +17,7 @@ import java.util.List;
 
 public class DictionaryActivity extends AppCompatActivity {
     private RecyclerView mActivityDictionaryRecycler;
+    private TextView mActivityDictionaryEmptyText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +27,7 @@ public class DictionaryActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(R.string.my_dictionnary);
 
         mActivityDictionaryRecycler = (RecyclerView) findViewById(R.id.activity_dictionary_recycler);
+        mActivityDictionaryEmptyText = (TextView) findViewById(R.id.activity_dictionary_empty_case);
         getWords();
     }
 
@@ -32,11 +36,17 @@ public class DictionaryActivity extends AppCompatActivity {
         List<String> wordsList = tinydb.getListString("wordsList");
         List<String> imageList = tinydb.getListString("imageList");
 
-        DictionaryAdapter mAdapter = new DictionaryAdapter(wordsList, imageList, DictionaryActivity.this);
-        mActivityDictionaryRecycler.setAdapter(mAdapter);
-        mActivityDictionaryRecycler.setLayoutManager(new LinearLayoutManager(DictionaryActivity.this));
-        int resId = R.anim.layout_animation_slide_in;
-        LayoutAnimationController animation = AnimationUtils.loadLayoutAnimation(DictionaryActivity.this, resId);
-        mActivityDictionaryRecycler.setLayoutAnimation(animation);
+        if (wordsList.size() > 0) {
+            DictionaryAdapter mAdapter = new DictionaryAdapter(wordsList, imageList, DictionaryActivity.this);
+            mActivityDictionaryRecycler.setAdapter(mAdapter);
+            mActivityDictionaryRecycler.setLayoutManager(new LinearLayoutManager(DictionaryActivity.this));
+            int resId = R.anim.layout_animation_slide_in;
+            LayoutAnimationController animation = AnimationUtils.loadLayoutAnimation(DictionaryActivity.this, resId);
+            mActivityDictionaryRecycler.setLayoutAnimation(animation);
+        } else {
+            mActivityDictionaryEmptyText.setVisibility(View.VISIBLE);
+            mActivityDictionaryRecycler.setVisibility(View.GONE);
+        }
+
     }
 }
